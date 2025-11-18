@@ -1,0 +1,169 @@
+name: base_project
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0
+
+dependency_overrides:
+  intl: ^0.20.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.2.2
+  go_router: ^17.0.0
+  json_annotation: ^4.9.0
+  flutter_gen_runner: ^5.12.0
+  intl: ^0.18.1
+  get_it: ^9.0.5
+  injectable: ^2.5.1
+  dio: ^5.9.0
+  equatable: ^2.0.7
+  alice: ^1.0.0
+  alice_dio: ^1.0.7
+  flutter_bloc: ^9.1.1
+  hydrated_bloc: ^10.1.1
+  freezed_annotation: ^3.0.0
+  path_provider: ^2.1.5
+  geolocator: ^13.0.1
+  geocoding: ^4.0.0
+  location:
+  intl_utils:
+  tuple: ^2.0.2
+  rxdart: ^0.28.0
+
+  #Firebase packages
+#  firebase_core: ^3.6.0
+#  firebase_messaging: ^15.2.0
+#  firebase_analytics: ^11.5.2
+#  firebase_crashlytics: ^4.3.9
+
+  #Internal
+  shared:
+    path: ../shared
+  domain:
+    path: ../domain
+  data:
+    path: ../data
+  base_ui:
+    path: ../base_ui
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+  build_runner: ^2.10.3
+  json_serializable: ^6.11.1
+  freezed: ^3.2.3
+  injectable_generator: ^2.7.0
+  mocktail: ^1.0.4
+
+flutter:
+  generate: true #turn on l10n
+  uses-material-design: true
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/images/
+
+  fonts:
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Thin.otf
+          weight: 100
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Thin Italic.otf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Xlight.otf
+          weight: 200
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Xlight Italic.otf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Light.otf
+          weight: 300
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Light Italic.otf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Regular.otf
+          weight: 400
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Italic.otf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Medium.otf
+          weight: 500
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Medium Italic.otf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Gilroy/SVN-Gilroy SemiBold Italic.otf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Bold.otf
+          weight: 700
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Bold Italic.otf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy XBold.otf
+          weight: 800
+        - asset: assets/fonts/Gilroy/SVN-Gilroy XBold Italic.otf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Heavy.otf
+          weight: 900
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Heavy Italic.otf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Black.otf
+          weight: 900
+        - asset: assets/fonts/Gilroy/SVN-Gilroy Black Italic.otf
+          weight: 900
+          style: italic
+
+flutter_gen:
+  output: lib/base_ui/generated
+  line_length: 160
+
+  integrations:
+    flutter_svg: true
+
+  fonts:
+    enabled: true
+
+  assets:
+    enabled: true
+    outputs:
+      class_name: MyAssets
+
+flutter_intl:
+  enabled: true
+  main_locale: vi
+  class_name: AppStrings
+  output_dir: lib/generated
+  arb_dir: lib/l10n
