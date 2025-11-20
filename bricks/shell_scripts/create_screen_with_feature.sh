@@ -88,3 +88,5 @@ mason make data_brick \
 
 echo ""
 echo "✅ All bricks generated successfully."
+
+dart run build_runner build  --delete-conflicting-outputs

@@ -18,3 +18,5 @@ mason make screen_brick --name "$SCREEN_NAME"
 
 echo ""
 echo "✅ Done."
+
+dart run build_runner build  --delete-conflicting-outputs

@@ -97,16 +97,12 @@ Future<void> updateDomainExport(HookContext context) async {
   final entityName = context.vars['entity_name'] as String?;
   final featureSnakeCase = toSnakeCase((featureName ?? ""));
   final fileEntity = toSnakeCase((entityName ?? "")) + '_entity';
-  final fileUseCase = toSnakeCase((actionType ?? "")) +
-      '_' +
-      toSnakeCase((entityName ?? "")) +
-      '_use_case';
+  final fileUseCase = (actionType != null && actionType.isNotEmpty)
+      ? '${toSnakeCase(actionType)}_${toSnakeCase(entityName ?? "")}_use_case'
+      : '${toSnakeCase(entityName ?? "")}_use_case';
 
-  final fileEntityPath =
-      'domain/models/entity/${featureSnakeCase}/${fileEntity}.dart';
-  final fileEntityFile = File(fileEntityPath);
-  final fileUseCasePath = 'domain/usecases/${featureSnakeCase}/${fileUseCase}.dart';
-  final fileUseCaseFile = File(fileUseCasePath);
+  final fileEntityPath = 'models/entity/${featureSnakeCase}/${fileEntity}.dart';
+  final fileUseCasePath = 'usecases/${featureSnakeCase}/${fileUseCase}.dart';
   const fileDomainPath = 'lib/domain/domain.dart';
   final fileDomain = File(fileDomainPath);
 

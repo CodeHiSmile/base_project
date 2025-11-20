@@ -41,7 +41,7 @@ String toCamelCase(String input) {
 }
 
 Future<void> updateApiFile(HookContext context) async {
-  const apiFilePath = 'lib/data/api/server/app_api_service.dart';
+  const apiFilePath = 'lib/data/api/service/app_api_service.dart';
   final repoFile = File(apiFilePath);
 
   if (!repoFile.existsSync()) {
@@ -78,12 +78,12 @@ Future<void> updateApiFile(HookContext context) async {
   
   Future<DataResponse<$modelName>?> $functionName() async {
     return _authAppServerApiClient.request(
-        method: RestMethod.$methodName,
-        path: '$path',
-        decoder: (json){
-          return $modelName.fromJson(json as Map<String, dynamic>);
-        },
-       );
+      method: RestMethod.$methodName,
+      path: '$path',
+      decoder: (json){
+        return $modelName.fromJson(json as Map<String, dynamic>);
+      },
+     );
   }
 ''';
 
