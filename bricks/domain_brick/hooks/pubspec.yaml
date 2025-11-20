@@ -1,0 +1,7 @@
+name: data_brick_hooks
+
+environment:
+  sdk: '>=3.3.0-217.0.dev <4.0.0'
+
+dependencies:
+  mason: ^0.1.0

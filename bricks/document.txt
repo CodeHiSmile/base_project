@@ -1,0 +1,31 @@
+1. Activate Mason globally
+dart pub global activate mason_cli
+
+If you're using Flutter:
+flutter pub global activate mason_cli
+
+
+2. Add Mason to your PATH
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+Sau đó reload shell:
+source ~/.zshrc
+
+----- Cài xong Mason -----
+3. Create a new Mason project
+Navigate to your project folder:
+mason init
+
+4. Add bricks to your project
+Tạo thư mục bricks -> cd bricks
+
+Muốn tạo một brick mới:
+mason new <brick_name>
+
+Thêm mason vừa tạo vào list:
+cd bricks
+mason add <brick_name> --path <brick_name>
+mason get
+
+
+

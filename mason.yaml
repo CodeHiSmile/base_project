@@ -1,0 +1,7 @@
+bricks:
+  domain_brick:
+    path: bricks/domain_brick
+  screen_brick:
+    path: bricks/screen_brick
+  data_brick:
+    path: bricks/data_brick

@@ -26,6 +26,10 @@ import 'package:base_project/data/mapper/auth/api_token_data_mapper.dart'
 import 'package:base_project/data/repository_impls/user_repository_impl.dart'
     as _i185;
 import 'package:base_project/domain/repositories/user_repository.dart' as _i719;
+import 'package:base_project/domain/usecases/user/get_user_use_case.dart'
+    as _i679;
+import 'package:base_project/domain/usecases/user/listen_user_profile_stream_use_case.dart'
+    as _i153;
 import 'package:base_project/navigation/app_navigator_impl.dart' as _i543;
 import 'package:base_project/navigation/mapper/app_popup_info_mapper.dart'
     as _i765;
@@ -33,6 +37,8 @@ import 'package:base_project/navigation/middleware/auth_service.dart' as _i21;
 import 'package:base_project/navigation/middleware/route_guard.dart' as _i41;
 import 'package:base_project/navigation/middleware/router_service.dart'
     as _i184;
+import 'package:base_project/presentation/features/login/bloc/login_bloc.dart'
+    as _i1014;
 import 'package:base_ui/base_ui.dart' as _i377;
 import 'package:data/data.dart' as _i437;
 import 'package:domain/domain.dart' as _i494;
@@ -48,6 +54,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i419.ApiTokenDataMapper>(() => _i419.ApiTokenDataMapper());
+    gh.factory<_i1014.LoginBloc>(() => _i1014.LoginBloc());
     gh.lazySingleton<_i21.AuthService>(() => _i21.AuthService());
     gh.lazySingleton<_i41.AppRouterGuard>(() => _i41.AppRouterGuard());
     gh.lazySingleton<_i184.RouterService>(() => _i184.RouterService());
@@ -100,6 +107,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i719.UserRepository>(
       () => _i185.UserRepositoryImpl(gh<_i877.AppApiService>()),
+    );
+    gh.factory<_i679.GetUserUseCase>(
+      () => _i679.GetUserUseCase(gh<_i719.UserRepository>()),
+    );
+    gh.factory<_i153.ListenUserProfileStreamUseCase>(
+      () => _i153.ListenUserProfileStreamUseCase(gh<_i719.UserRepository>()),
     );
     return this;
   }
