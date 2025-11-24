@@ -9,12 +9,6 @@ class AppInitiated extends AppEvent {
   const AppInitiated();
 }
 
-class IsLoggedInStatusChanged extends AppEvent {
-  final bool isLoggedIn;
-
-  const IsLoggedInStatusChanged({required this.isLoggedIn});
-}
-
 class AppThemeChanged extends AppEvent {
   final bool isDarkTheme;
 
@@ -32,4 +26,10 @@ class ChangeDebugSettingEvent extends AppEvent {
   final bool? debugButtonOverlay;
 
   const ChangeDebugSettingEvent({this.debugNotify, this.debugButtonOverlay});
+}
+
+class ChangeMainPageIndexEvent extends AppEvent {
+  final int pageIndex;
+
+  const ChangeMainPageIndexEvent({required this.pageIndex});
 }

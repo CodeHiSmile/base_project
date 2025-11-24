@@ -10,11 +10,8 @@ abstract class AppState extends BaseBlocState with _$AppState {
 
   const factory AppState({
     @Default(LanguageCode.vi) LanguageCode languageCode,
-    @Default(false) bool isLoggedIn,
     @Default(false) bool isDarkTheme,
-    @Default(false) bool debugNotify,
     @Default(false) bool debugOverlayButton,
-    @Default(null) bool? shouldRequestLocation,
-    @Default(false) bool navigateToHome,
+    @Default(0) int mainPageIndex,
   }) = _AppState;
 }

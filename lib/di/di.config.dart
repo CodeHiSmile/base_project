@@ -37,6 +37,20 @@ import 'package:base_project/navigation/middleware/auth_service.dart' as _i21;
 import 'package:base_project/navigation/middleware/route_guard.dart' as _i41;
 import 'package:base_project/navigation/middleware/router_service.dart'
     as _i184;
+import 'package:base_project/presentation/features/create_order/bloc/create_order_bloc.dart'
+    as _i258;
+import 'package:base_project/presentation/features/home/bloc/home_bloc.dart'
+    as _i357;
+import 'package:base_project/presentation/features/login/bloc/login_bloc.dart'
+    as _i1014;
+import 'package:base_project/presentation/features/main/bloc/main_bloc.dart'
+    as _i244;
+import 'package:base_project/presentation/features/product/product_detail/bloc/product_detail_bloc.dart'
+    as _i256;
+import 'package:base_project/presentation/features/product/product_list/bloc/product_list_bloc.dart'
+    as _i834;
+import 'package:base_project/presentation/features/profile/bloc/profile_bloc.dart'
+    as _i996;
 import 'package:base_project/presentation/features/splash/bloc/splash_bloc.dart'
     as _i397;
 import 'package:base_ui/base_ui.dart' as _i377;
@@ -54,6 +68,13 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i419.ApiTokenDataMapper>(() => _i419.ApiTokenDataMapper());
+    gh.factory<_i258.CreateOrderBloc>(() => _i258.CreateOrderBloc());
+    gh.factory<_i357.HomeBloc>(() => _i357.HomeBloc());
+    gh.factory<_i1014.LoginBloc>(() => _i1014.LoginBloc());
+    gh.factory<_i244.MainBloc>(() => _i244.MainBloc());
+    gh.factory<_i256.ProductDetailBloc>(() => _i256.ProductDetailBloc());
+    gh.factory<_i834.ProductListBloc>(() => _i834.ProductListBloc());
+    gh.factory<_i996.ProfileBloc>(() => _i996.ProfileBloc());
     gh.factory<_i397.SplashBloc>(() => _i397.SplashBloc());
     gh.lazySingleton<_i21.AuthService>(() => _i21.AuthService());
     gh.lazySingleton<_i41.RouterGuard>(() => _i41.RouterGuard());

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppState {
 
- LanguageCode get languageCode; bool get isLoggedIn; bool get isDarkTheme; bool get debugNotify; bool get debugOverlayButton; bool? get shouldRequestLocation; bool get navigateToHome;
+ LanguageCode get languageCode; bool get isDarkTheme; bool get debugOverlayButton; int get mainPageIndex;
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AppStateCopyWith<AppState> get copyWith => _$AppStateCopyWithImpl<AppState>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugNotify, debugNotify) || other.debugNotify == debugNotify)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.shouldRequestLocation, shouldRequestLocation) || other.shouldRequestLocation == shouldRequestLocation)&&(identical(other.navigateToHome, navigateToHome) || other.navigateToHome == navigateToHome));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.mainPageIndex, mainPageIndex) || other.mainPageIndex == mainPageIndex));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,languageCode,isLoggedIn,isDarkTheme,debugNotify,debugOverlayButton,shouldRequestLocation,navigateToHome);
+int get hashCode => Object.hash(runtimeType,languageCode,isDarkTheme,debugOverlayButton,mainPageIndex);
 
 @override
 String toString() {
-  return 'AppState(languageCode: $languageCode, isLoggedIn: $isLoggedIn, isDarkTheme: $isDarkTheme, debugNotify: $debugNotify, debugOverlayButton: $debugOverlayButton, shouldRequestLocation: $shouldRequestLocation, navigateToHome: $navigateToHome)';
+  return 'AppState(languageCode: $languageCode, isDarkTheme: $isDarkTheme, debugOverlayButton: $debugOverlayButton, mainPageIndex: $mainPageIndex)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AppStateCopyWith<$Res>  {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) _then) = _$AppStateCopyWithImpl;
 @useResult
 $Res call({
- LanguageCode languageCode, bool isLoggedIn, bool isDarkTheme, bool debugNotify, bool debugOverlayButton, bool? shouldRequestLocation, bool navigateToHome
+ LanguageCode languageCode, bool isDarkTheme, bool debugOverlayButton, int mainPageIndex
 });
 
 
@@ -62,16 +62,13 @@ class _$AppStateCopyWithImpl<$Res>
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? languageCode = null,Object? isLoggedIn = null,Object? isDarkTheme = null,Object? debugNotify = null,Object? debugOverlayButton = null,Object? shouldRequestLocation = freezed,Object? navigateToHome = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? languageCode = null,Object? isDarkTheme = null,Object? debugOverlayButton = null,Object? mainPageIndex = null,}) {
   return _then(_self.copyWith(
 languageCode: null == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
-as LanguageCode,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
-as bool,isDarkTheme: null == isDarkTheme ? _self.isDarkTheme : isDarkTheme // ignore: cast_nullable_to_non_nullable
-as bool,debugNotify: null == debugNotify ? _self.debugNotify : debugNotify // ignore: cast_nullable_to_non_nullable
+as LanguageCode,isDarkTheme: null == isDarkTheme ? _self.isDarkTheme : isDarkTheme // ignore: cast_nullable_to_non_nullable
 as bool,debugOverlayButton: null == debugOverlayButton ? _self.debugOverlayButton : debugOverlayButton // ignore: cast_nullable_to_non_nullable
-as bool,shouldRequestLocation: freezed == shouldRequestLocation ? _self.shouldRequestLocation : shouldRequestLocation // ignore: cast_nullable_to_non_nullable
-as bool?,navigateToHome: null == navigateToHome ? _self.navigateToHome : navigateToHome // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,mainPageIndex: null == mainPageIndex ? _self.mainPageIndex : mainPageIndex // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -156,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isLoggedIn,  bool isDarkTheme,  bool debugNotify,  bool debugOverlayButton,  bool? shouldRequestLocation,  bool navigateToHome)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppState() when $default != null:
-return $default(_that.languageCode,_that.isLoggedIn,_that.isDarkTheme,_that.debugNotify,_that.debugOverlayButton,_that.shouldRequestLocation,_that.navigateToHome);case _:
+return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex);case _:
   return orElse();
 
 }
@@ -177,10 +174,10 @@ return $default(_that.languageCode,_that.isLoggedIn,_that.isDarkTheme,_that.debu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isLoggedIn,  bool isDarkTheme,  bool debugNotify,  bool debugOverlayButton,  bool? shouldRequestLocation,  bool navigateToHome)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex)  $default,) {final _that = this;
 switch (_that) {
 case _AppState():
-return $default(_that.languageCode,_that.isLoggedIn,_that.isDarkTheme,_that.debugNotify,_that.debugOverlayButton,_that.shouldRequestLocation,_that.navigateToHome);case _:
+return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +194,10 @@ return $default(_that.languageCode,_that.isLoggedIn,_that.isDarkTheme,_that.debu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( LanguageCode languageCode,  bool isLoggedIn,  bool isDarkTheme,  bool debugNotify,  bool debugOverlayButton,  bool? shouldRequestLocation,  bool navigateToHome)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex)?  $default,) {final _that = this;
 switch (_that) {
 case _AppState() when $default != null:
-return $default(_that.languageCode,_that.isLoggedIn,_that.isDarkTheme,_that.debugNotify,_that.debugOverlayButton,_that.shouldRequestLocation,_that.navigateToHome);case _:
+return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex);case _:
   return null;
 
 }
@@ -212,16 +209,13 @@ return $default(_that.languageCode,_that.isLoggedIn,_that.isDarkTheme,_that.debu
 
 
 class _AppState extends AppState {
-  const _AppState({this.languageCode = LanguageCode.vi, this.isLoggedIn = false, this.isDarkTheme = false, this.debugNotify = false, this.debugOverlayButton = false, this.shouldRequestLocation = null, this.navigateToHome = false}): super._();
+  const _AppState({this.languageCode = LanguageCode.vi, this.isDarkTheme = false, this.debugOverlayButton = false, this.mainPageIndex = 0}): super._();
   
 
 @override@JsonKey() final  LanguageCode languageCode;
-@override@JsonKey() final  bool isLoggedIn;
 @override@JsonKey() final  bool isDarkTheme;
-@override@JsonKey() final  bool debugNotify;
 @override@JsonKey() final  bool debugOverlayButton;
-@override@JsonKey() final  bool? shouldRequestLocation;
-@override@JsonKey() final  bool navigateToHome;
+@override@JsonKey() final  int mainPageIndex;
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +227,16 @@ _$AppStateCopyWith<_AppState> get copyWith => __$AppStateCopyWithImpl<_AppState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugNotify, debugNotify) || other.debugNotify == debugNotify)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.shouldRequestLocation, shouldRequestLocation) || other.shouldRequestLocation == shouldRequestLocation)&&(identical(other.navigateToHome, navigateToHome) || other.navigateToHome == navigateToHome));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.mainPageIndex, mainPageIndex) || other.mainPageIndex == mainPageIndex));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,languageCode,isLoggedIn,isDarkTheme,debugNotify,debugOverlayButton,shouldRequestLocation,navigateToHome);
+int get hashCode => Object.hash(runtimeType,languageCode,isDarkTheme,debugOverlayButton,mainPageIndex);
 
 @override
 String toString() {
-  return 'AppState(languageCode: $languageCode, isLoggedIn: $isLoggedIn, isDarkTheme: $isDarkTheme, debugNotify: $debugNotify, debugOverlayButton: $debugOverlayButton, shouldRequestLocation: $shouldRequestLocation, navigateToHome: $navigateToHome)';
+  return 'AppState(languageCode: $languageCode, isDarkTheme: $isDarkTheme, debugOverlayButton: $debugOverlayButton, mainPageIndex: $mainPageIndex)';
 }
 
 
@@ -253,7 +247,7 @@ abstract mixin class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res>
   factory _$AppStateCopyWith(_AppState value, $Res Function(_AppState) _then) = __$AppStateCopyWithImpl;
 @override @useResult
 $Res call({
- LanguageCode languageCode, bool isLoggedIn, bool isDarkTheme, bool debugNotify, bool debugOverlayButton, bool? shouldRequestLocation, bool navigateToHome
+ LanguageCode languageCode, bool isDarkTheme, bool debugOverlayButton, int mainPageIndex
 });
 
 
@@ -270,16 +264,13 @@ class __$AppStateCopyWithImpl<$Res>
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? isLoggedIn = null,Object? isDarkTheme = null,Object? debugNotify = null,Object? debugOverlayButton = null,Object? shouldRequestLocation = freezed,Object? navigateToHome = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? isDarkTheme = null,Object? debugOverlayButton = null,Object? mainPageIndex = null,}) {
   return _then(_AppState(
 languageCode: null == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
-as LanguageCode,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
-as bool,isDarkTheme: null == isDarkTheme ? _self.isDarkTheme : isDarkTheme // ignore: cast_nullable_to_non_nullable
-as bool,debugNotify: null == debugNotify ? _self.debugNotify : debugNotify // ignore: cast_nullable_to_non_nullable
+as LanguageCode,isDarkTheme: null == isDarkTheme ? _self.isDarkTheme : isDarkTheme // ignore: cast_nullable_to_non_nullable
 as bool,debugOverlayButton: null == debugOverlayButton ? _self.debugOverlayButton : debugOverlayButton // ignore: cast_nullable_to_non_nullable
-as bool,shouldRequestLocation: freezed == shouldRequestLocation ? _self.shouldRequestLocation : shouldRequestLocation // ignore: cast_nullable_to_non_nullable
-as bool?,navigateToHome: null == navigateToHome ? _self.navigateToHome : navigateToHome // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,mainPageIndex: null == mainPageIndex ? _self.mainPageIndex : mainPageIndex // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

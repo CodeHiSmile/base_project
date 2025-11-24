@@ -58,23 +58,17 @@ class AuthService {
   }
 
   /// Đăng nhập - phiên bản MANUAL (cách cũ)
-  Future<bool> loginWithManualRestore() async {
+  Future<bool> loginWithManualRestore({bool canPushToPage = true}) async {
     print('🔐 Đăng nhập với manual restore...');
 
     _isLoggedIn = true;
 
     // Cách cũ: phải tự gọi restore
-    RouterService.restoreSavedRoute();
+    RouterService.restoreSavedRoute(canPushToPage: canPushToPage);
 
     print('✅ Login thành công! Đã manual restore route.');
 
     return true;
-  }
-
-  Future<void> loginAndRestoreViaMainPage() async {
-    _isLoggedIn = true;
-
-    RouterService.restoreRouteAfterLogin();
   }
 
   /// Đăng xuất

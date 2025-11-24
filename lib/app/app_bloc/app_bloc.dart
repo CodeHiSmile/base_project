@@ -2,7 +2,6 @@ import 'package:base_project/app/app_bloc/app_event.dart';
 import 'package:base_project/app/app_bloc/app_state.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart' hide Environment;
@@ -14,14 +13,13 @@ class AppBloc extends BaseBloc<AppEvent, AppState> {
     : super(
         AppState(
           languageCode: LanguageCode.vi,
-          debugNotify: kDebugMode,
           debugOverlayButton:
               !(GetIt.instance.get<EnvironmentConfig>().getEnvironment() ==
                   Environment.production),
         ),
       ) {
     on<AppInitiated>(_onAppInitiated, transformer: log());
-    on<IsLoggedInStatusChanged>(_onIsLoggedInStatusChanged, transformer: log());
+    on<ChangeMainPageIndexEvent>(_onChangeMainPageIndex, transformer: log());
   }
 
   final GetInitialAppDataUseCase _getInitialAppDataUseCase;
@@ -37,26 +35,21 @@ class AppBloc extends BaseBloc<AppEvent, AppState> {
         );
 
         _updateThemeSetting(output.isDarkMode);
-        emit(
-          state.copyWith(
-            isDarkTheme: output.isDarkMode,
-            isLoggedIn: output.isLoggedIn,
-          ),
-        );
+        emit(state.copyWith(isDarkTheme: output.isDarkMode));
       },
     );
-  }
-
-  void _onIsLoggedInStatusChanged(
-    IsLoggedInStatusChanged event,
-    Emitter<AppState> emit,
-  ) {
-    emit(state.copyWith(isLoggedIn: event.isLoggedIn));
   }
 
   void _updateThemeSetting(bool isDarkTheme) {
     AppThemeSetting.currentAppTheme = isDarkTheme
         ? AppThemeType.dark
         : AppThemeType.light;
+  }
+
+  void _onChangeMainPageIndex(
+    ChangeMainPageIndexEvent event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(mainPageIndex: event.pageIndex));
   }
 }

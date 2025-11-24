@@ -144,32 +144,10 @@ class RouterGuard {
   }
 
   /// Khôi phục route với toàn bộ data sau khi đăng nhập thành công
-  static void restoreRouteWithData() {
-    if (_savedRouteState != null) {
-      final state = _savedRouteState!;
-      _savedRouteState = null; // Clear saved state
-
-      // Xây dựng lại URL với query parameters
-      String fullPath = state.matchedLocation;
-      if (state.uri.queryParameters.isNotEmpty) {
-        final queryString = state.uri.queryParameters.entries
-            .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
-            .join('&');
-        fullPath += '?$queryString';
-      }
-
-      // Navigate với extra data
-      RouterService.navigateTo(fullPath, extra: state.extra);
-    }
-  }
-
-  static void restoreSavedRouteViaMainPage() {
+  static void restoreRouteWithData({bool canPushToPage = true}) {
     if (_savedRouteState != null) {
       final state = _savedRouteState!;
       _savedRouteState = null;
-
-      // Always navigate to mainPage first
-      RouterService.navigateTo(AuthService.mainPagePath);
 
       // Then navigate to saved route
       Future.microtask(() {
@@ -180,7 +158,11 @@ class RouterGuard {
               .join('&');
           fullPath += '?$queryString';
         }
-        RouterService.pushTo(fullPath, extra: state.extra);
+
+        RouterService.pop();
+        if (canPushToPage) {
+          RouterService.pushTo(fullPath, extra: state.extra);
+        }
       });
     }
   }

@@ -93,27 +93,27 @@ class RouterService extends ChangeNotifier {
   }
 
   /// Push route mới mà không cần BuildContext
-  static void pushTo(String path, {Object? extra}) {
+  static Future<void> pushTo(String path, {Object? extra}) async {
     if (currentContext != null) {
-      GoRouter.of(currentContext!).push(path, extra: extra);
+      await GoRouter.of(currentContext!).push(path, extra: extra);
     }
   }
 
   /// Pop route hiện tại mà không cần BuildContext
-  static void pop([Object? result]) {
+  static Future<void> pop([Object? result]) async {
     currentNavigator?.pop(result);
   }
 
   /// Push và replace route hiện tại mà không cần BuildContext
-  static void pushReplacement(String path, {Object? extra}) {
+  static Future<void> pushReplacement(String path, {Object? extra}) async {
     if (currentContext != null) {
-      GoRouter.of(currentContext!).pushReplacement(path, extra: extra);
+      await GoRouter.of(currentContext!).pushReplacement(path, extra: extra);
     }
   }
 
-  static void replace(String path, {Object? extra}) {
+  static Future<void> replace(String path, {Object? extra}) async {
     if (currentContext != null) {
-      GoRouter.of(currentContext!).replace(path, extra: extra);
+      await GoRouter.of(currentContext!).replace(path, extra: extra);
     }
   }
 
@@ -152,13 +152,8 @@ class RouterService extends ChangeNotifier {
   }
 
   /// Khôi phục route đã lưu sau khi đăng nhập thành công
-  static void restoreSavedRoute() {
-    RouterGuard.restoreRouteWithData();
-  }
-
-  /// Khôi phục route đã lưu và navigate qua MainPage sau khi đăng nhập thành công
-  static void restoreRouteAfterLogin() {
-    RouterGuard.restoreSavedRouteViaMainPage();
+  static void restoreSavedRoute({bool canPushToPage = true}) {
+    RouterGuard.restoreRouteWithData(canPushToPage: canPushToPage);
   }
 
   /// Tự động restore route và trigger callback
