@@ -12,12 +12,12 @@ class {{name.pascalCase()}}Bloc extends BaseBloc<{{name.pascalCase()}}Event, {{n
 {{name.pascalCase()}}Bloc(
      )
       : super(const {{name.pascalCase()}}State()) {
-      on<InitialDataEvent>(_onInitialDataEvent);
+      on<Initial{{name.pascalCase()}}DataEvent>(_onInitialDataEvent);
   }
 
   FutureOr<void> _onInitialDataEvent(
-    InitialDataEvent event,
-    Emitter<LoginState> emit,
+    Initial{{name.pascalCase()}}DataEvent event,
+    Emitter<{{name.pascalCase()}}State> emit,
   ) {}
 
 }

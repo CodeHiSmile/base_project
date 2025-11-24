@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared/shared.dart';
 
 @LazySingleton(as: AppNavigator)
-class AppNavigatorImpl extends AppNavigator with LogMixin {
+class AppNavigatorImpl extends AppNavigator {
   AppNavigatorImpl(this._appRouter, this._appPopupInfoMapper);
 
   final RouterService _appRouter;
@@ -22,7 +22,7 @@ class AppNavigatorImpl extends AppNavigator with LogMixin {
   @override
   bool removeLast() {
     if (LogConfig.enableNavigatorObserverLog) {
-      logD('removeLast');
+      LogUtils.d('removeLast');
     }
 
     return true;

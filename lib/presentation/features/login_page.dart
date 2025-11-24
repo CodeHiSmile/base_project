@@ -1,5 +1,7 @@
 import 'package:base_project/app/app_bloc/app_bloc.dart';
 import 'package:base_project/navigation/middleware/auth_service.dart';
+import 'package:base_project/navigation/middleware/router_service.dart';
+import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -20,11 +22,30 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             ElevatedButton(
               onPressed: () {
+                RouterService.popUntilRouteName(RouterPaths.setting);
+                // // Sử dụng GlobalKey - không cần context!
+                // final authService = GetIt.instance.get<AuthService>();
+                // authService.loginWithManualRestore();
+              },
+              child: Text('Back to Setting'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
                 // Sử dụng GlobalKey - không cần context!
                 final authService = GetIt.instance.get<AuthService>();
                 authService.loginWithManualRestore();
               },
               child: Text('Login'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Sử dụng GlobalKey - không cần context!
+                final authService = GetIt.instance.get<AuthService>();
+                authService.loginAndRestoreViaMainPage();
+              },
+              child: Text('Login2'),
             ),
           ],
         ),

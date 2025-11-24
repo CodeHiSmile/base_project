@@ -1,4 +1,5 @@
 import 'package:base_project/navigation/middleware/router_service.dart';
+import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 
 class SettingPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SettingPageState extends State<SettingPage> {
             ElevatedButton(
               onPressed: () {
                 // Sử dụng GlobalKey để pop
-                RouterService.pop();
+                RouterService.pushTo(RouterPaths.home);
               },
               child: Text('Back (sử dụng GlobalKey)'),
             ),

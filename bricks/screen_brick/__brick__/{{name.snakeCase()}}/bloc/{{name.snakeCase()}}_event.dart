@@ -5,6 +5,6 @@ abstract class {{name.pascalCase()}}Event extends BaseBlocEvent {
   const {{name.pascalCase()}}Event();
 }
 
-class InitialDataEvent extends {{name.pascalCase()}}Event {
-  const InitialDataEvent();
+class Initial{{name.pascalCase()}}DataEvent extends {{name.pascalCase()}}Event {
+  const Initial{{name.pascalCase()}}DataEvent();
 }

@@ -147,7 +147,7 @@ flutter:
           style: italic
 
 flutter_gen:
-  output: lib/base_ui/generated
+  output: lib/generated
   line_length: 160
 
   integrations:

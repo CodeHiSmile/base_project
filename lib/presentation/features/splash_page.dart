@@ -12,6 +12,32 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // if (RouterService.currentContext != null) {
+      //   showDialog(
+      //     context: RouterService.currentContext!,
+      //     builder: (context) {
+      //       return AlertDialog(
+      //         title: Text('Welcome'),
+      //         content: Text('This is a splash page dialog.'),
+      //         actions: [
+      //           TextButton(
+      //             onPressed: () {
+      //               Navigator.of(RouterService.currentContext!).pop();
+      //             },
+      //             child: Text('Close'),
+      //           ),
+      //         ],
+      //       );
+      //     },
+      //   );
+      // }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Splash Page")),
@@ -24,7 +50,7 @@ class _SplashPageState extends State<SplashPage> {
             ElevatedButton(
               onPressed: () {
                 // Sử dụng GoRouter với context
-                RouterService.navigateTo(RouterPaths.setting);
+                RouterService.pushTo(RouterPaths.setting);
               },
               child: Text('Go to Settings (với context)'),
             ),
@@ -32,7 +58,7 @@ class _SplashPageState extends State<SplashPage> {
             ElevatedButton(
               onPressed: () {
                 // Sử dụng GlobalKey - không cần context!
-                RouterService.navigateTo(
+                RouterService.pushTo(
                   RouterPaths.profile,
                   extra: ProfileArguments(userId: "45678"),
                 );

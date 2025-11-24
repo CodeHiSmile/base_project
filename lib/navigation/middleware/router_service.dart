@@ -1,6 +1,7 @@
 import 'package:base_project/di/di.dart';
 import 'package:base_project/navigation/middleware/entry.dart';
 import 'package:base_project/navigation/middleware/route_guard.dart';
+import 'package:base_project/navigation/middleware/router_logger.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,8 @@ import 'package:injectable/injectable.dart';
 class RouterService extends ChangeNotifier {
   final List<RouteEntry> _routes = [];
   late GoRouter _router;
+
+  static String initialPath = '/';
 
   /// GlobalKey để truy cập NavigatorState từ bất kỳ đâu trong app
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -28,6 +31,12 @@ class RouterService extends ChangeNotifier {
 
   RouterService() {
     _updateRouter();
+  }
+
+  void changeInitialPath(String path) {
+    if (initialPath != path) {
+      initialPath = path;
+    }
   }
 
   void registerRoute(RouteEntry entry) {
@@ -48,17 +57,20 @@ class RouterService extends ChangeNotifier {
         .toSet();
 
     _router = GoRouter(
-      navigatorKey: RouterService.navigatorKey,
-      initialLocation: '/',
-      redirect: getIt<AppRouterGuard>().guard,
+      initialLocation: initialPath,
+      redirect: getIt<RouterGuard>().guard,
       debugLogDiagnostics: false,
-      routes: _routes.map((entry) {
-        return GoRoute(
-          path: entry.path,
-          builder: (context, state) => entry.builder(context, state),
-        );
-      }).toList(),
+      navigatorKey: RouterService.navigatorKey,
+      routes: _routes.map(mapEntryToGoRoute).toList(),
       observers: [AppNavigatorObserver()],
+    );
+  }
+
+  GoRoute mapEntryToGoRoute(RouteEntry entry) {
+    return GoRoute(
+      path: entry.path,
+      builder: (context, state) => entry.builder(context, state),
+      routes: entry.routes?.map(mapEntryToGoRoute).toList() ?? [],
     );
   }
 
@@ -99,24 +111,69 @@ class RouterService extends ChangeNotifier {
     }
   }
 
+  static void replace(String path, {Object? extra}) {
+    if (currentContext != null) {
+      GoRouter.of(currentContext!).replace(path, extra: extra);
+    }
+  }
+
+  static bool canPop() {
+    return GoRouter.of(currentContext!).canPop();
+  }
+
+  static String getCurrentRouteName({bool useRootNavigator = false}) {
+    if (currentContext != null) {
+      final router = GoRouter.of(currentContext!);
+      final path = router.state.path ?? "";
+
+      RouterLogger.info(path);
+      return path;
+    }
+
+    return '';
+  }
+
+  static void popUntilRoot() {
+    //Cách 1:
+    // if (currentContext != null) {
+    //   while (currentContext!.canPop()) {
+    //     currentContext!.pop();
+    //   }
+    // }
+
+    //Cách 2: Nên dùng
+    currentNavigator?.popUntil((route) => route.isFirst);
+  }
+
+  static void popUntilRouteName(String routeName) {
+    currentNavigator?.popUntil((route) {
+      return route.settings.name == routeName;
+    });
+  }
+
   /// Khôi phục route đã lưu sau khi đăng nhập thành công
   static void restoreSavedRoute() {
-    AppRouterGuard.restoreRouteWithData();
+    RouterGuard.restoreRouteWithData();
+  }
+
+  /// Khôi phục route đã lưu và navigate qua MainPage sau khi đăng nhập thành công
+  static void restoreRouteAfterLogin() {
+    RouterGuard.restoreSavedRouteViaMainPage();
   }
 
   /// Tự động restore route và trigger callback
   static void autoRestoreAfterLogin() {
-    AppRouterGuard.restoreRouteWithData();
+    RouterGuard.restoreRouteWithData();
     _onAuthStateChanged?.call();
   }
 
   /// Lấy thông tin về route đã lưu
   static Map<String, dynamic>? getSavedRouteInfo() {
-    return AppRouterGuard.getSavedRouteInfo();
+    return RouterGuard.getSavedRouteInfo();
   }
 
   /// Xóa route đã lưu
   static void clearSavedRoute() {
-    AppRouterGuard.clearSavedRoute();
+    RouterGuard.clearSavedRoute();
   }
 }

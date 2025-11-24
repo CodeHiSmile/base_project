@@ -4,14 +4,13 @@ import 'package:base_project/navigation/middleware/route_guard.dart';
 import 'package:base_project/navigation/middleware/router_service.dart';
 import 'package:injectable/injectable.dart';
 
-/// Example AuthService với Auto-Restore integration.
 @LazySingleton()
 class AuthService {
-  static const String loginRouter = '/login';
+  static String loginPath = '/login';
+
+  static String mainPagePath = '/';
 
   bool _isLoggedIn = false;
-  String? lastAttemptedRoute;
-  String? loginSuccessAttemptedRoute;
 
   /// Stream để theo dõi auth state changes
   final StreamController<bool> _authStateController =
@@ -22,13 +21,24 @@ class AuthService {
   AuthService() {
     // Listen to auth state changes và notify router
     authStateStream.listen((isLoggedIn) {
-      AppRouterGuard.notifyAuthStateChanged(isLoggedIn);
+      RouterGuard.notifyAuthStateChanged(isLoggedIn);
     });
+  }
+
+  void changeLoginPath(String path) {
+    if (loginPath != path) {
+      loginPath = path;
+    }
+  }
+
+  void changeMainPagePath(String path) {
+    if (mainPagePath != path) {
+      mainPagePath = path;
+    }
   }
 
   /// Kiểm tra trạng thái đăng nhập
   Future<bool> isLoggedIn() async {
-    // Simulate async check (có thể từ SharedPreferences, SecureStorage, etc.)
     return _isLoggedIn;
   }
 
@@ -61,6 +71,12 @@ class AuthService {
     return true;
   }
 
+  Future<void> loginAndRestoreViaMainPage() async {
+    _isLoggedIn = true;
+
+    RouterService.restoreRouteAfterLogin();
+  }
+
   /// Đăng xuất
   Future<void> logout() async {
     print('🚪 Đang đăng xuất...');
@@ -80,34 +96,27 @@ class AuthService {
   }
 
   /// Login với custom behavior
-  Future<bool> loginWithCustomRestore(
-    String username,
-    String password, {
+  Future<bool> loginWithCustomRestore({
     bool shouldAutoRestore = true,
     void Function()? onRestoreComplete,
   }) async {
-    bool success = username.isNotEmpty && password.isNotEmpty;
+    _isLoggedIn = true;
 
-    if (success) {
-      _isLoggedIn = true;
-
-      if (shouldAutoRestore) {
-        // Configure callback trước khi restore
-        if (onRestoreComplete != null) {
-          RouterService.configureAutoRestore(
-            onAuthStateChanged: onRestoreComplete,
-          );
-        }
-
-        // Trigger auto-restore
-        _authStateController.add(true);
-      } else {
-        // Skip auto-restore
-        print('⏭️ Skip auto-restore theo yêu cầu');
+    if (shouldAutoRestore) {
+      // Configure callback trước khi restore
+      if (onRestoreComplete != null) {
+        RouterService.configureAutoRestore(
+          onAuthStateChanged: onRestoreComplete,
+        );
       }
+      // Trigger auto-restore
+      _authStateController.add(true);
+    } else {
+      // Skip auto-restore
+      print('⏭️ Skip auto-restore theo yêu cầu');
     }
 
-    return success;
+    return true;
   }
 
   /// Get thông tin về route sẽ được restore

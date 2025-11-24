@@ -5,16 +5,12 @@ import 'package:base_project/navigation/middleware/auth_service.dart';
 import 'package:base_project/navigation/middleware/router_logger.dart';
 import 'package:base_project/navigation/middleware/router_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton()
-class AppRouterGuard {
+class RouterGuard {
   /// Lưu toàn bộ state của route bị chặn để khôi phục sau khi đăng nhập
-
-  final authService = getIt.get<AuthService>();
-
   static GoRouterState? _savedRouteState;
 
   /// Flag để track xem có đang trong quá trình auto-restore không
@@ -34,6 +30,10 @@ class AppRouterGuard {
   static const Duration _savedRouteTimeout = Duration(
     minutes: 30,
   ); // Auto cleanup sau 30 phút
+
+  static String? lastAttemptedRoute;
+
+  static String? loginSuccessAttemptedRoute;
 
   /// Initialize auto-restore listener
   static void initializeAutoRestore() {
@@ -113,23 +113,23 @@ class AppRouterGuard {
   }
 
   Future<String?> guard(BuildContext context, GoRouterState state) async {
-    final isLoggedIn = await authService
-        .isLoggedIn(); // Kiểm tra trạng thái đăng nhập
+    final authService = getIt<AuthService>();
 
-    final String location = state.matchedLocation
-        .split('?')
-        .first; // location hiện tại : Bỏ query params
+    final isLoggedIn = await authService.isLoggedIn();
 
-    final String lastAttemptedRoute =
-        authService.lastAttemptedRoute ?? ''; // location cuối cùng
+    // location hiện tại : Bỏ query params
+    final String location = state.matchedLocation.split('?').first;
 
-    authService.lastAttemptedRoute = location;
+    // location cuối cùng
+    lastAttemptedRoute = location;
 
     if (!RouterService.protectedRoutes.contains(location)) {
       if (!RouterService.protectedRoutes.contains(lastAttemptedRoute)) {
-        authService.loginSuccessAttemptedRoute = null;
-        _savedRouteState = null; // Xóa saved state khi không cần bảo vệ
+        loginSuccessAttemptedRoute = null;
+        _savedRouteState = state; // Xóa saved state khi không cần bảo vệ
+        // _savedRouteState = null; // Xóa saved state khi không cần bảo vệ
       }
+
       return null;
     } else {
       if (isLoggedIn) {
@@ -137,8 +137,8 @@ class AppRouterGuard {
       } else {
         // Lưu toàn bộ route state (bao gồm cả data) để khôi phục sau
         _savedRouteState = state;
-        authService.loginSuccessAttemptedRoute = location;
-        return AuthService.loginRouter;
+        loginSuccessAttemptedRoute = location;
+        return AuthService.loginPath;
       }
     }
   }
@@ -160,6 +160,28 @@ class AppRouterGuard {
 
       // Navigate với extra data
       RouterService.navigateTo(fullPath, extra: state.extra);
+    }
+  }
+
+  static void restoreSavedRouteViaMainPage() {
+    if (_savedRouteState != null) {
+      final state = _savedRouteState!;
+      _savedRouteState = null;
+
+      // Always navigate to mainPage first
+      RouterService.navigateTo(AuthService.mainPagePath);
+
+      // Then navigate to saved route
+      Future.microtask(() {
+        String fullPath = state.matchedLocation;
+        if (state.uri.queryParameters.isNotEmpty) {
+          final queryString = state.uri.queryParameters.entries
+              .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
+              .join('&');
+          fullPath += '?$queryString';
+        }
+        RouterService.pushTo(fullPath, extra: state.extra);
+      });
     }
   }
 

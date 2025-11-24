@@ -37,6 +37,8 @@ import 'package:base_project/navigation/middleware/auth_service.dart' as _i21;
 import 'package:base_project/navigation/middleware/route_guard.dart' as _i41;
 import 'package:base_project/navigation/middleware/router_service.dart'
     as _i184;
+import 'package:base_project/presentation/features/splash/bloc/splash_bloc.dart'
+    as _i397;
 import 'package:base_ui/base_ui.dart' as _i377;
 import 'package:data/data.dart' as _i437;
 import 'package:domain/domain.dart' as _i494;
@@ -52,8 +54,9 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i419.ApiTokenDataMapper>(() => _i419.ApiTokenDataMapper());
+    gh.factory<_i397.SplashBloc>(() => _i397.SplashBloc());
     gh.lazySingleton<_i21.AuthService>(() => _i21.AuthService());
-    gh.lazySingleton<_i41.AppRouterGuard>(() => _i41.AppRouterGuard());
+    gh.lazySingleton<_i41.RouterGuard>(() => _i41.RouterGuard());
     gh.lazySingleton<_i184.RouterService>(() => _i184.RouterService());
     gh.lazySingleton<_i377.BasePopupInfoMapper>(
       () => _i765.AppPopupInfoMapper(),
