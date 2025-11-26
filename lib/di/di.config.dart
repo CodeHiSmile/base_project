@@ -30,13 +30,6 @@ import 'package:base_project/domain/usecases/user/get_user_use_case.dart'
     as _i679;
 import 'package:base_project/domain/usecases/user/listen_user_profile_stream_use_case.dart'
     as _i153;
-import 'package:base_project/navigation/app_navigator_impl.dart' as _i543;
-import 'package:base_project/navigation/mapper/app_popup_info_mapper.dart'
-    as _i765;
-import 'package:base_project/navigation/middleware/auth_service.dart' as _i21;
-import 'package:base_project/navigation/middleware/route_guard.dart' as _i41;
-import 'package:base_project/navigation/middleware/router_service.dart'
-    as _i184;
 import 'package:base_project/presentation/features/create_order/bloc/create_order_bloc.dart'
     as _i258;
 import 'package:base_project/presentation/features/home/bloc/home_bloc.dart'
@@ -53,7 +46,6 @@ import 'package:base_project/presentation/features/profile/bloc/profile_bloc.dar
     as _i996;
 import 'package:base_project/presentation/features/splash/bloc/splash_bloc.dart'
     as _i397;
-import 'package:base_ui/base_ui.dart' as _i377;
 import 'package:data/data.dart' as _i437;
 import 'package:domain/domain.dart' as _i494;
 import 'package:get_it/get_it.dart' as _i174;
@@ -76,18 +68,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i834.ProductListBloc>(() => _i834.ProductListBloc());
     gh.factory<_i996.ProfileBloc>(() => _i996.ProfileBloc());
     gh.factory<_i397.SplashBloc>(() => _i397.SplashBloc());
-    gh.lazySingleton<_i21.AuthService>(() => _i21.AuthService());
-    gh.lazySingleton<_i41.RouterGuard>(() => _i41.RouterGuard());
-    gh.lazySingleton<_i184.RouterService>(() => _i184.RouterService());
-    gh.lazySingleton<_i377.BasePopupInfoMapper>(
-      () => _i765.AppPopupInfoMapper(),
-    );
-    gh.lazySingleton<_i811.AppNavigator>(
-      () => _i543.AppNavigatorImpl(
-        gh<_i184.RouterService>(),
-        gh<_i377.BasePopupInfoMapper>(),
-      ),
-    );
     gh.lazySingleton<_i528.AppBloc>(
       () => _i528.AppBloc(gh<_i494.GetInitialAppDataUseCase>()),
     );

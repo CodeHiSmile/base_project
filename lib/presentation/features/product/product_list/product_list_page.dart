@@ -1,9 +1,9 @@
-import 'package:base_project/navigation/middleware/router_service.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import './bloc/bloc.dart';
 
 class ProductListArguments {
@@ -36,7 +36,7 @@ class _ProductListPageState
           children: [
             Text(
               "Danh sách Sản phẩm",
-              style: context.textStyles.title.copyWith(
+              style: context.textStyles.normal.copyWith(
                 color: Colors.orange,
                 fontSize: 20,
               ),
@@ -44,7 +44,7 @@ class _ProductListPageState
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                RouterService.pushTo(RouterPaths.productDetail);
+                GetIt.instance.get<AppNavigator>().pushTo(RouterPaths.productDetail);
               },
               child: Text('Xem Chi tiết Sản phẩm'),
             ),

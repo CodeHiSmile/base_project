@@ -1,9 +1,10 @@
-import 'package:base_project/navigation/middleware/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import './bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginArguments {
   const LoginArguments();
@@ -34,7 +35,7 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
           children: [
             Text(
               "Login Page",
-              style: context.textStyles.title.copyWith(
+              style: context.textStyles.normal.copyWith(
                 color: Colors.orange,
                 fontSize: 20,
               ),
@@ -54,6 +55,14 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                 authService.loginWithManualRestore(canPushToPage: false);
               },
               child: Text('Login 2'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                final authService = GetIt.instance.get<AuthService>();
+                authService.loginWithAutoRestore();
+              },
+              child: Text('Login 3'),
             ),
           ],
         ),

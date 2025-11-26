@@ -1,4 +1,3 @@
-import 'package:base_project/navigation/middleware/entry.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:base_project/presentation/features/create_order/create_order_page.dart';
 import 'package:base_project/presentation/features/home/home_page.dart';
@@ -7,6 +6,7 @@ import 'package:base_project/presentation/features/main/main_page.dart';
 import 'package:base_project/presentation/features/product/product_detail/product_detail_page.dart';
 import 'package:base_project/presentation/features/product/product_list/product_list_page.dart';
 import 'package:base_project/presentation/features/splash/splash_page.dart';
+import 'package:router/router.dart';
 
 class AppRouter {
   /// Danh sách tất cả routes của app

@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.2.2
-  go_router: ^17.0.0
+#  go_router: ^17.0.0
   json_annotation: ^4.9.0
   flutter_gen_runner: ^5.12.0
   intl: ^0.18.1
@@ -72,6 +72,8 @@ dependencies:
     path: ../data
   base_ui:
     path: ../base_ui
+  router:
+    path: ../router
 
 dev_dependencies:
   flutter_test:

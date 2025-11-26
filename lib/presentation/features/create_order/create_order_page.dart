@@ -1,12 +1,12 @@
 import 'package:base_project/app/app_bloc/app_bloc.dart';
 import 'package:base_project/app/app_bloc/app_event.dart';
-import 'package:base_project/navigation/middleware/router_service.dart';
-import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import './bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class CreateOrderArguments {
   const CreateOrderArguments();
@@ -40,7 +40,7 @@ class _CreateOrderPageState
           children: [
             Text(
               "Đặt hàng",
-              style: context.textStyles.title.copyWith(
+              style: context.textStyles.normal.copyWith(
                 color: Colors.orange,
                 fontSize: 20,
               ),
@@ -48,8 +48,8 @@ class _CreateOrderPageState
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                RouterService.popUntilRoot();
-                // appBloc.add(ChangeMainPageIndexEvent(pageIndex: 1));
+                GetIt.instance.get<AppNavigator>().popUntilRoot();
+                appBloc.add(ChangeMainPageIndexEvent(pageIndex: 1));
               },
               child: Text('Đặt hàng thành công, về Trang Search'),
             ),

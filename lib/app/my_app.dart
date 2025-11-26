@@ -1,10 +1,7 @@
 import 'package:base_project/app/app_bloc/app_state.dart';
-import 'package:base_project/di/di.dart';
 import 'package:base_project/generated/l10n.dart';
-import 'package:base_project/navigation/middleware/router_service.dart';
 import 'package:base_project/navigation/routers/app_router.dart';
 import 'package:base_ui/base_ui.dart';
-import 'package:domain/domain.dart';
 
 // import 'package:firebase_analytics/firebase_analytics.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +14,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import 'package:shared/shared.dart';
 
 import 'app_bloc/app_bloc.dart';
@@ -44,7 +42,7 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
     bloc.add(const AppInitiated());
 
     if (_alice != null) {
-      _alice.setNavigatorKey(RouterService.navigatorKey);
+      _alice.setNavigatorKey(AppNavigatorImpl.navigatorKey);
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {

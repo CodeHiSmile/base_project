@@ -1,8 +1,9 @@
-import 'package:base_project/navigation/middleware/router_service.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import './bloc/bloc.dart';
 
 class SplashArguments {
@@ -23,7 +24,7 @@ class _SplashPageState extends BasePageState<SplashPage, SplashBloc> {
   void initState() {
     //after 2s navigate to MainPage
     Future.delayed(const Duration(seconds: 2), () {
-      RouterService.navigateTo(RouterPaths.main);
+      GetIt.instance.get<AppNavigator>().navigateTo(RouterPaths.main);
     });
     super.initState();
   }
@@ -37,7 +38,7 @@ class _SplashPageState extends BasePageState<SplashPage, SplashBloc> {
           children: [
             Text(
               "Splash Page",
-              style: context.textStyles.title.copyWith(
+              style: context.textStyles.normal.copyWith(
                 color: Colors.orange,
                 fontSize: 20,
               ),

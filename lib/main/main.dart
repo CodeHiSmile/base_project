@@ -8,10 +8,11 @@ import 'package:base_ui/base_ui.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide RouterConfig;
 import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:router/router.dart';
 import 'package:shared/shared.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
@@ -29,8 +30,7 @@ Future<void> _runMyApp() async {
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
 
-  if (!(GetIt.instance.get<EnvironmentConfig>().getEnvironment() !=
-      Environment.production)) {
+  if (GetIt.instance.get<EnvironmentConfig>().getEnvironment() != Environment.production) {
     GetIt.instance.get<EnvironmentConfig>().setAlice(
       Alice(configuration: AliceConfiguration(showNotification: false)),
     );
@@ -41,6 +41,7 @@ Future<void> _runMyApp() async {
   await DataConfig.getInstance().init();
   await DomainConfig.getInstance().init();
   await BaseUiConfig.getInstance().init();
+  await RouterConfig.getInstance().init();
   await AppConfig.getInstance().init();
   await Future.delayed(Duration(milliseconds: 200));
 

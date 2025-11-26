@@ -2,8 +2,6 @@ import 'package:base_project/app/app_bloc/app_bloc.dart';
 import 'package:base_project/app/app_bloc/app_event.dart';
 import 'package:base_project/app/app_bloc/app_state.dart';
 import 'package:base_project/di/di.dart';
-import 'package:base_project/navigation/middleware/auth_service.dart';
-import 'package:base_project/navigation/middleware/router_service.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:base_project/presentation/features/home/home_page.dart';
 import 'package:base_project/presentation/features/profile/profile_page.dart';
@@ -11,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import './bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class MainArguments {
   const MainArguments();
@@ -53,7 +53,7 @@ class _MainPageState extends BasePageState<MainPage, MainBloc>
 
     if (index == 2) {
       if (!isLogin) {
-        await RouterService.pushTo(RouterPaths.login);
+        await GetIt.instance.get<AppNavigator>().pushTo(RouterPaths.login);
 
         if (await getIt.get<AuthService>().isLoggedIn()) {
           onNavigateToPageIndex(index);
