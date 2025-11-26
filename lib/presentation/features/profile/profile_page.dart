@@ -1,6 +1,9 @@
+import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:router/router.dart';
 import './bloc/bloc.dart';
 
 class ProfileArguments {
@@ -26,7 +29,41 @@ class _ProfilePageState extends BasePageState<ProfilePage, ProfileBloc> {
   Widget buildPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Profile Page")),
-      body: SizedBox(),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                await GetIt.instance.get<AppNavigator>().pushTo(
+                  RouterPaths.login,
+                );
+                setState(() {});
+              },
+              child: Text('Đăng nhập'),
+            ),
+            SizedBox(height: 20),
+            Visibility(
+              visible: GetIt.instance.get<AuthService>().isLoggedIn,
+              child: ElevatedButton(
+                onPressed: () {
+                  BaseDialog.showConfirmDialog(
+                    context,
+                    message: "Bạn có chắc chắn muốn đăng xuất không?",
+                    onConfirm: () {
+                      setState(() {
+                        final authService = GetIt.instance.get<AuthService>();
+                        authService.logout();
+                      });
+                    },
+                  );
+                },
+                child: Text('Đăng xuất'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

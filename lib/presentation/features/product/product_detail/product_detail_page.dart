@@ -47,7 +47,9 @@ class _ProductDetailPageState
               onPressed: () {
                 GetIt.instance.get<AppNavigator>().pushTo(
                   RouterPaths.createOrder,
-                  extra: CreateOrderArguments(),
+                  extra: CreateOrderArguments(
+                    productId: "12345",
+                  ),
                 );
               },
               child: Text('Đặt hàng'),

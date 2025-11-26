@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends BasePageState<HomePage, HomeBloc> {
+  bool isFavorite = false;
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +50,25 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                 );
               },
               child: Text('Xem DS Sản phẩm'),
+            ),
+            SizedBox(height: 20),
+            InkWellWidget(
+              onTap: () async {
+                //check login
+                final authService = GetIt.instance.get<AuthService>();
+
+                authService.runAfterLogin(
+                  action: () {
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
+                  },
+                );
+              },
+              child: Icon(
+                Icons.favorite,
+                color: isFavorite ? Colors.red : Colors.grey,
+              ),
             ),
           ],
         ),

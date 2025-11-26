@@ -9,7 +9,9 @@ import './bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class CreateOrderArguments {
-  const CreateOrderArguments();
+  final String? productId;
+
+  const CreateOrderArguments({this.productId});
 }
 
 class CreateOrderPage extends StatefulWidget {
@@ -39,7 +41,7 @@ class _CreateOrderPageState
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Đặt hàng",
+              "Đặt hàng ${widget.arguments?.productId}",
               style: context.textStyles.normal.copyWith(
                 color: Colors.orange,
                 fontSize: 20,

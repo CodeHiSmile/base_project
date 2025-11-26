@@ -49,21 +49,21 @@ class _MainPageState extends BasePageState<MainPage, MainBloc>
   }
 
   void _onItemTapped(int index) async {
-    final isLogin = await getIt.get<AuthService>().isLoggedIn();
-
-    if (index == 2) {
-      if (!isLogin) {
-        await GetIt.instance.get<AppNavigator>().pushTo(RouterPaths.login);
-
-        if (await getIt.get<AuthService>().isLoggedIn()) {
-          onNavigateToPageIndex(index);
-        }
-      } else {
-        onNavigateToPageIndex(index);
-      }
-    } else {
-      onNavigateToPageIndex(index);
-    }
+    // final isLogin = await getIt.get<AuthService>().isLoggedIn();
+    //
+    // if (index == 2) {
+    //   if (!isLogin) {
+    //     await GetIt.instance.get<AppNavigator>().pushTo(RouterPaths.login);
+    //
+    //     if (await getIt.get<AuthService>().isLoggedIn()) {
+    //       onNavigateToPageIndex(index);
+    //     }
+    //   } else {
+    //     onNavigateToPageIndex(index);
+    //   }
+    // } else {
+    onNavigateToPageIndex(index);
+    // }
   }
 
   void onNavigateToPageIndex(int index) {
