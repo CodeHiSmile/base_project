@@ -1,4 +1,5 @@
 import 'package:base_project/navigation/routers/router_paths.dart';
+import 'package:base_project/presentation/bottom_sheets/app_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,6 +68,19 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
               },
               child: Icon(
                 Icons.favorite,
+                color: isFavorite ? Colors.red : Colors.grey,
+              ),
+            ),
+            SizedBox(height: 20),
+            InkWellWidget(
+              onTap: () async {
+                AppBottomSheet.show(
+                  context,
+                  options: BottomSheetOptions(title: "Test"),
+                );
+              },
+              child: Icon(
+                Icons.menu,
                 color: isFavorite ? Colors.red : Colors.grey,
               ),
             ),

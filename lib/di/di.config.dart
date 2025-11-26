@@ -30,6 +30,8 @@ import 'package:base_project/domain/usecases/user/get_user_use_case.dart'
     as _i679;
 import 'package:base_project/domain/usecases/user/listen_user_profile_stream_use_case.dart'
     as _i153;
+import 'package:base_project/navigation/bottom_sheet_impl.dart' as _i460;
+import 'package:base_project/navigation/dialog_impl.dart' as _i656;
 import 'package:base_project/presentation/features/create_order/bloc/create_order_bloc.dart'
     as _i258;
 import 'package:base_project/presentation/features/home/bloc/home_bloc.dart'
@@ -46,6 +48,7 @@ import 'package:base_project/presentation/features/profile/bloc/profile_bloc.dar
     as _i996;
 import 'package:base_project/presentation/features/splash/bloc/splash_bloc.dart'
     as _i397;
+import 'package:base_ui/base_ui.dart' as _i377;
 import 'package:data/data.dart' as _i437;
 import 'package:domain/domain.dart' as _i494;
 import 'package:get_it/get_it.dart' as _i174;
@@ -71,6 +74,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i528.AppBloc>(
       () => _i528.AppBloc(gh<_i494.GetInitialAppDataUseCase>()),
     );
+    gh.lazySingleton<_i377.BaseBottomSheet>(() => _i460.BottomSheetImpl());
+    gh.lazySingleton<_i377.BaseDialog>(() => _i656.AppDialogImpl());
     gh.lazySingleton<_i1018.RefreshTokenApiClient>(
       () => _i1018.RefreshTokenApiClient(
         gh<_i437.HeaderInterceptor>(),
