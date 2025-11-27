@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared/shared.dart';
 
 @LazySingleton(as: BaseExceptionDelegate)
-class AppExceptionDelegateImpl extends BaseExceptionDelegate {
+class AppExceptionImpl extends BaseExceptionDelegate {
   @override
   void handleException(
     BuildContext context,

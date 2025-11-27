@@ -16,7 +16,7 @@ import 'package:base_project/data/api/client/none_auth_app_server_api_client.dar
     as _i218;
 import 'package:base_project/data/api/client/refresh_token_api_client.dart'
     as _i1018;
-import 'package:base_project/data/api/exception/app_exception_delegate_impl.dart'
+import 'package:base_project/data/api/exception/app_exception_impl.dart'
     as _i359;
 import 'package:base_project/data/api/interceptors/refresh_token_interceptor.dart'
     as _i483;
@@ -72,7 +72,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i996.ProfileBloc>(() => _i996.ProfileBloc());
     gh.factory<_i397.SplashBloc>(() => _i397.SplashBloc());
     gh.lazySingleton<_i377.BaseExceptionDelegate>(
-      () => _i359.AppExceptionDelegateImpl(),
+      () => _i359.AppExceptionImpl(),
     );
     gh.lazySingleton<_i528.AppBloc>(
       () => _i528.AppBloc(gh<_i494.GetInitialAppDataUseCase>()),
