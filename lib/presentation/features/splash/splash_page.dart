@@ -1,3 +1,4 @@
+import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
@@ -24,7 +25,7 @@ class _SplashPageState extends BasePageState<SplashPage, SplashBloc> {
   void initState() {
     //after 2s navigate to MainPage
     Future.delayed(const Duration(seconds: 2), () {
-      GetIt.instance.get<AppNavigator>().navigateTo(RouterPaths.main);
+      AppNavigator.go(RouterPaths.main);
     });
     super.initState();
   }

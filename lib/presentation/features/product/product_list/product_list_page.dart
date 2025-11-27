@@ -1,3 +1,4 @@
+import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
@@ -44,9 +45,18 @@ class _ProductListPageState
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                GetIt.instance.get<AppNavigator>().pushTo(RouterPaths.productDetail);
+                AppNavigator.push(RouterPaths.productDetail);
               },
               child: Text('Xem Chi tiết Sản phẩm'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (AppNavigator.canPop()) {
+                  AppNavigator.pop(true);
+                }
+              },
+              child: Text('Back'),
             ),
           ],
         ),

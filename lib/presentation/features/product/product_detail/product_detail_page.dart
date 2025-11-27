@@ -1,3 +1,4 @@
+import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:base_project/presentation/features/create_order/create_order_page.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _ProductDetailPageState
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                GetIt.instance.get<AppNavigator>().pushTo(
+                AppNavigator.push(
                   RouterPaths.createOrder,
                   extra: CreateOrderArguments(
                     productId: "12345",
