@@ -1,6 +1,8 @@
 import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:base_project/presentation/bottom_sheets/app_bottom_sheet.dart';
+import 'package:base_project/presentation/dialogs/app_dialog.dart';
+import 'package:base_project/presentation/widgets/button/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +45,15 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                 color: Colors.orange,
                 fontSize: 20,
               ),
+            ),
+            SizedBox(height: 20),
+            PrimaryButton(text: "TEst me", onTap: () async {}, width: 300),
+            SizedBox(height: 20),
+            PrimaryButton.outline(
+              text: "TEst me2",
+              onTap: () async {},
+              width: 200,
+              height: 100,
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -100,6 +111,17 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                 Icons.eighteen_up_rating_outlined,
                 color: Colors.grey,
               ),
+            ),
+            SizedBox(height: 20),
+            InkWellWidget(
+              onTap: () async {
+                AppDialog.showInfoDialog(
+                  context,
+                  title: "Info Dialog",
+                  message: "This is an info dialog",
+                );
+              },
+              child: Icon(Icons.safety_check_rounded, color: Colors.grey),
             ),
             SizedBox(height: 20),
             ElevatedButton(

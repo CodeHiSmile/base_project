@@ -103,7 +103,10 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
           routerConfig: routerService.router,
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
           theme: lightTheme.copyWith(
-            extensions: [AppColorScheme.core(), AppTextStyles.core()],
+            extensions: [
+              AppColorScheme.core().copyWith(primary: Colors.green),
+              AppTextStyles.core(),
+            ],
             appBarTheme: AppBarTheme(
               backgroundColor: CoreColors.white,
               scrolledUnderElevation: 0.0,
