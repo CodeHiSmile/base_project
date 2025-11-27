@@ -1,5 +1,5 @@
 import 'package:alice/alice.dart';
-import 'package:shared/shared.dart';
+import 'package:domain/domain.dart';
 
 class EnvironmentBase extends EnvironmentConfig {
   EnvironmentBase({

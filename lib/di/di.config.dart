@@ -17,7 +17,7 @@ import 'package:base_project/data/api/client/none_auth_app_server_api_client.dar
 import 'package:base_project/data/api/client/refresh_token_api_client.dart'
     as _i1018;
 import 'package:base_project/data/api/exception/app_exception_impl.dart'
-    as _i359;
+    as _i64;
 import 'package:base_project/data/api/interceptors/refresh_token_interceptor.dart'
     as _i483;
 import 'package:base_project/data/api/service/app_api_service.dart' as _i877;
@@ -53,7 +53,6 @@ import 'package:data/data.dart' as _i437;
 import 'package:domain/domain.dart' as _i494;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:shared/shared.dart' as _i811;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -71,11 +70,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i834.ProductListBloc>(() => _i834.ProductListBloc());
     gh.factory<_i996.ProfileBloc>(() => _i996.ProfileBloc());
     gh.factory<_i397.SplashBloc>(() => _i397.SplashBloc());
-    gh.lazySingleton<_i377.BaseExceptionDelegate>(
-      () => _i359.AppExceptionImpl(),
-    );
     gh.lazySingleton<_i528.AppBloc>(
       () => _i528.AppBloc(gh<_i494.GetInitialAppDataUseCase>()),
+    );
+    gh.lazySingleton<_i377.BaseExceptionDelegate>(
+      () => _i64.AppExceptionImpl(),
     );
     gh.lazySingleton<_i1018.RefreshTokenApiClient>(
       () => _i1018.RefreshTokenApiClient(
@@ -89,7 +88,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i510.RefreshTokenApiService>(
       () => _i510.RefreshTokenApiService(
         gh<_i1018.RefreshTokenApiClient>(),
-        gh<_i811.EnvironmentConfig>(),
+        gh<_i494.EnvironmentConfig>(),
       ),
     );
     gh.factory<_i483.RefreshTokenInterceptor>(

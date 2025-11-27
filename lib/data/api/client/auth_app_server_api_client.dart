@@ -1,9 +1,9 @@
 import 'package:alice_dio/alice_dio_adapter.dart';
 import 'package:base_project/data/api/interceptors/refresh_token_interceptor.dart';
 import 'package:data/data.dart';
-import 'package:shared/shared.dart';
 
 import 'package:dio/dio.dart';
+import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 

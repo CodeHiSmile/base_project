@@ -2,6 +2,7 @@ import 'package:base_project/data/api/client/refresh_token_api_client.dart';
 import 'package:base_project/data/models/auth/api_token_data.dart';
 import 'package:data/data.dart';
 import 'package:shared/shared.dart';
+import 'package:domain/domain.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
