@@ -31,7 +31,7 @@ class PrimaryButton extends BaseButton {
     super.isLoading,
     super.borderWidth = 1,
     super.width,
-    super.height,
+    super.height = 48,
   }) : super();
 
   /// Outline variant
@@ -61,6 +61,6 @@ class PrimaryButton extends BaseButton {
     super.colorType = ColorType.normal,
     super.isLoading,
     super.width,
-    super.height,
+    super.height = 48,
   }) : super.outline();
 }

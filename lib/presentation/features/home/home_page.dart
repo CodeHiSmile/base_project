@@ -53,7 +53,6 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
               text: "TEst me2",
               onTap: () async {},
               width: 200,
-              height: 100,
             ),
             SizedBox(height: 20),
             ElevatedButton(
