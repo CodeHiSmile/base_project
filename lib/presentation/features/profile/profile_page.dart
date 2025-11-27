@@ -1,4 +1,6 @@
+import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
+import 'package:base_project/presentation/dialogs/app_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,9 +37,7 @@ class _ProfilePageState extends BasePageState<ProfilePage, ProfileBloc> {
           children: [
             ElevatedButton(
               onPressed: () async {
-                await GetIt.instance.get<AppNavigator>().pushTo(
-                  RouterPaths.login,
-                );
+                await AppNavigator.push(RouterPaths.login);
                 setState(() {});
               },
               child: Text('Đăng nhập'),
@@ -47,7 +47,7 @@ class _ProfilePageState extends BasePageState<ProfilePage, ProfileBloc> {
               visible: GetIt.instance.get<AuthService>().isLoggedIn,
               child: ElevatedButton(
                 onPressed: () {
-                  BaseDialog.showConfirmDialog(
+                  AppDialog.showConfirmDialog(
                     context,
                     message: "Bạn có chắc chắn muốn đăng xuất không?",
                     onConfirm: () {

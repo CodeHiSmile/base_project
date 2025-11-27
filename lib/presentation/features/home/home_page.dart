@@ -1,4 +1,6 @@
+import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
+import 'package:base_project/presentation/bottom_sheets/app_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,10 +46,16 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                GetIt.instance.get<AppNavigator>().pushTo(
-                  RouterPaths.productList,
-                );
+              onPressed: () async {
+                final data = await AppNavigator.push(RouterPaths.productList);
+
+                if (data == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Quay về từ DS Sản phẩm với kết quả TRUE'),
+                    ),
+                  );
+                }
               },
               child: Text('Xem DS Sản phẩm'),
             ),
@@ -69,6 +77,38 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                 Icons.favorite,
                 color: isFavorite ? Colors.red : Colors.grey,
               ),
+            ),
+            SizedBox(height: 20),
+            InkWellWidget(
+              onTap: () async {
+                AppBottomSheet.show(
+                  context,
+                  options: BottomSheetOptions(title: "Test"),
+                );
+              },
+              child: Icon(Icons.menu, color: Colors.grey),
+            ),
+            SizedBox(height: 20),
+            InkWellWidget(
+              onTap: () async {
+                AppBottomSheet.show(
+                  AppNavigator.currentContext!,
+                  options: BottomSheetOptions(title: "Test"),
+                );
+              },
+              child: Icon(
+                Icons.eighteen_up_rating_outlined,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (AppNavigator.canPop()) {
+                  AppNavigator.pop();
+                }
+              },
+              child: Text('Back'),
             ),
           ],
         ),

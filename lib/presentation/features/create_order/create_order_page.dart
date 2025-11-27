@@ -1,5 +1,7 @@
 import 'package:base_project/app/app_bloc/app_bloc.dart';
 import 'package:base_project/app/app_bloc/app_event.dart';
+import 'package:base_project/navigation/app_navigator.dart';
+import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,10 +52,18 @@ class _CreateOrderPageState
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                GetIt.instance.get<AppNavigator>().popUntilRoot();
+                AppNavigator.popUntilRoot();
                 appBloc.add(ChangeMainPageIndexEvent(pageIndex: 1));
               },
               child: Text('Đặt hàng thành công, về Trang Search'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                AppNavigator.popUntil(RouterPaths.productList);
+                appBloc.add(ChangeMainPageIndexEvent(pageIndex: 1));
+              },
+              child: Text('về Trang Danh sách'),
             ),
           ],
         ),
