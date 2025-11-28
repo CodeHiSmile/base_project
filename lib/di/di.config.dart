@@ -64,12 +64,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i419.ApiTokenDataMapper>(() => _i419.ApiTokenDataMapper());
     gh.factory<_i258.CreateOrderBloc>(() => _i258.CreateOrderBloc());
     gh.factory<_i357.HomeBloc>(() => _i357.HomeBloc());
-    gh.factory<_i1014.LoginBloc>(() => _i1014.LoginBloc());
     gh.factory<_i244.MainBloc>(() => _i244.MainBloc());
     gh.factory<_i256.ProductDetailBloc>(() => _i256.ProductDetailBloc());
     gh.factory<_i834.ProductListBloc>(() => _i834.ProductListBloc());
-    gh.factory<_i996.ProfileBloc>(() => _i996.ProfileBloc());
     gh.factory<_i397.SplashBloc>(() => _i397.SplashBloc());
+    gh.factory<_i1014.LoginBloc>(
+      () => _i1014.LoginBloc(gh<_i494.SaveTokenUseCase>()),
+    );
     gh.lazySingleton<_i528.AppBloc>(
       () => _i528.AppBloc(gh<_i494.GetInitialAppDataUseCase>()),
     );
@@ -84,6 +85,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i218.NoneAuthAppServerApiClient>(
       () => _i218.NoneAuthAppServerApiClient(gh<_i437.HeaderInterceptor>()),
+    );
+    gh.factory<_i996.ProfileBloc>(
+      () => _i996.ProfileBloc(gh<_i494.DeleteTokenUseCase>()),
     );
     gh.lazySingleton<_i510.RefreshTokenApiService>(
       () => _i510.RefreshTokenApiService(

@@ -46,11 +46,15 @@ class _ProductDetailPageState
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                AppNavigator.push(
-                  RouterPaths.createOrder,
-                  extra: CreateOrderArguments(
-                    productId: "12345",
-                  ),
+
+                final authService = GetIt.instance.get<AuthService>();
+                authService.runAfterLogin(
+                  action: () {
+                    AppNavigator.push(
+                      RouterPaths.createOrder,
+                      extra: CreateOrderArguments(productId: "12345"),
+                    );
+                  },
                 );
               },
               child: Text('Đặt hàng'),

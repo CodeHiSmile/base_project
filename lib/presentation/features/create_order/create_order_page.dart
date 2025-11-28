@@ -61,7 +61,6 @@ class _CreateOrderPageState
             ElevatedButton(
               onPressed: () {
                 AppNavigator.popUntil(RouterPaths.productList);
-                appBloc.add(ChangeMainPageIndexEvent(pageIndex: 1));
               },
               child: Text('về Trang Danh sách'),
             ),

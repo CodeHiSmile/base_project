@@ -40,8 +40,8 @@ Future<void> _runMyApp() async {
   await SharedConfig.getInstance().init();
   await DataConfig.getInstance().init();
   await DomainConfig.getInstance().init();
-  await BaseUiConfig.getInstance().init();
   await RouterConfig.getInstance().init();
+  await BaseUiConfig.getInstance().init();
   await AppConfig.getInstance().init();
   await Future.delayed(Duration(milliseconds: 200));
 

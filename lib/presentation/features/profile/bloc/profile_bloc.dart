@@ -9,15 +9,33 @@ import 'profile_state.dart';
 
 @Injectable()
 class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
-ProfileBloc(
-     )
-      : super(const ProfileState()) {
-      on<InitialProfileDataEvent>(_onInitialDataEvent);
+  ProfileBloc(this._deleteTokenUseCase) : super(const ProfileState()) {
+    on<InitialProfileDataEvent>(_onInitialDataEvent);
+    on<LogoutEvent>(_logoutEvent);
   }
+
+  final DeleteTokenUseCase _deleteTokenUseCase;
 
   FutureOr<void> _onInitialDataEvent(
     InitialProfileDataEvent event,
     Emitter<ProfileState> emit,
   ) {}
 
+  FutureOr<void> _logoutEvent(
+    LogoutEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
+    return runBlocCatching(
+      action: () async {
+        await _deleteTokenUseCase.execute(
+          DeleteTokenInput(accessToken: '', refreshToken: ''),
+        );
+
+        emit(state.copyWith(loadStatus: LoadingStatus.success));
+      },
+      doOnEventCompleted: () async {
+        event.completer?.complete(true);
+      },
+    );
+  }
 }

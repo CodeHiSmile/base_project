@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:base_project/navigation/app_navigator.dart';
 import 'package:base_project/navigation/routers/router_paths.dart';
 import 'package:base_project/presentation/dialogs/app_dialog.dart';
@@ -50,11 +52,18 @@ class _ProfilePageState extends BasePageState<ProfilePage, ProfileBloc> {
                   AppDialog.showConfirmDialog(
                     context,
                     message: "Bạn có chắc chắn muốn đăng xuất không?",
-                    onConfirm: () {
-                      setState(() {
-                        final authService = GetIt.instance.get<AuthService>();
-                        authService.logout();
-                      });
+                    onConfirm: () async {
+                      final Completer completer = Completer();
+
+                      bloc.add(LogoutEvent(completer: completer));
+
+                      final result = await completer.future;
+                      if (result == true) {
+                        setState(() {
+                          final authService = GetIt.instance.get<AuthService>();
+                          authService.logout();
+                        });
+                      }
                     },
                   );
                 },

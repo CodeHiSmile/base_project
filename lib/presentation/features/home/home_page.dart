@@ -47,19 +47,12 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
               ),
             ),
             SizedBox(height: 20),
-            PrimaryButton(text: "TEst me", onTap: () async {}, width: 300),
-            SizedBox(height: 20),
-            PrimaryButton.outline(
-              text: "TEst me2",
-              onTap: () async {},
-              width: 200,
-            ),
-            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 final data = await AppNavigator.push(RouterPaths.productList);
 
                 if (data == true) {
+                  // if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Quay về từ DS Sản phẩm với kết quả TRUE'),

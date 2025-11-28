@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,9 +22,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
+  final authService = GetIt.instance.get<AuthService>();
+
   @override
   void initState() {
     super.initState();
+  }
+
+  void onLogin(Function onSuccess) async {
+    final Completer completer = Completer();
+    bloc.add(
+      OnLoginEvent(completer: completer, account: 'user', password: 'password'),
+    );
+    final result = await completer.future;
+
+    if (result == true) {
+      onSuccess.call();
+      final authService = GetIt.instance.get<AuthService>();
+      authService.restoreRoute(canPushToPage: false);
+    }
   }
 
   @override
@@ -43,26 +61,20 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                final authService = GetIt.instance.get<AuthService>();
-                authService.loginWithManualRestore();
+                onLogin(() {
+                  authService.restoreRoute();
+                });
               },
               child: Text('Login'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                final authService = GetIt.instance.get<AuthService>();
-                authService.loginWithManualRestore(canPushToPage: false);
+              onPressed: () async {
+                onLogin(() {
+                  authService.restoreRoute(canPushToPage: false);
+                });
               },
               child: Text('Login 2'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                final authService = GetIt.instance.get<AuthService>();
-                authService.loginWithAutoRestore();
-              },
-              child: Text('Login 3'),
             ),
           ],
         ),
