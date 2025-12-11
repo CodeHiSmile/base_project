@@ -1,0 +1,20 @@
+B0: Đổi tên folder thành your_project_name_will_setup
+B1: flutter pub add rename
+B2: dart run rename setAppName --targets ios,android --value "Smart Toy"
+B3: dart run rename setBundleId --targets ios,android --value com.vn.example
+
+Lúc này sẽ thấy trên phần tên folder bị hiển thị kiểu: your_name_project[project_base], nếu muốn sửa thì làm tiếp các bước sau:
+B4: Chuột phải vào tên folder -> rename -> Đổi project_base thành your_project_name_will_setup
+B5: flutter clean + flutter pub get
+
+Sau đó ở phần android vẫn còn android[base_project_module], muốn xoá thì làm tiếp:
+B6: Clean cache android:
+rm -rf android/.gradle
+rm -rf android/build
+rm -rf android/.idea
+rm -rf android/*.iml
+
+B7: flutter clean + flutter pub get
+B8: Mở android/app/main/kotlin/... -> MainActivity
+    => Sửa lại tên các folder và dòng "package com.example.base_project" thành "package com.vn.your_project"
+
