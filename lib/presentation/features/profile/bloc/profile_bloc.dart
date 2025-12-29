@@ -28,7 +28,7 @@ class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
     return runBlocCatching(
       action: () async {
         await _deleteTokenUseCase.execute(
-          DeleteTokenInput(accessToken: '', refreshToken: ''),
+          DeleteTokenInput(),
         );
 
         emit(state.copyWith(loadStatus: LoadingStatus.success));
