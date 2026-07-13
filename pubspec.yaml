@@ -44,8 +44,6 @@ dependencies:
   injectable: ^2.5.1
   dio: ^5.9.0
   equatable: ^2.0.7
-  alice: ^1.0.0
-  alice_dio: ^1.0.7
   flutter_bloc: ^9.1.1
   hydrated_bloc: ^10.1.1
   freezed_annotation: ^3.0.0
@@ -74,6 +72,10 @@ dependencies:
     path: ../hismile_commons/packages/base_ui
   router:
     path: ../hismile_commons/packages/router
+  alice:
+    path: ../hismile_commons/packages/alice
+  alice_dio:
+    path: ../hismile_commons/packages/alice_dio
 
 dev_dependencies:
   flutter_test:

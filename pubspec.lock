@@ -12,18 +12,16 @@ packages:
   alice:
     dependency: "direct main"
     description:
-      name: alice
-      sha256: e396be8458b312edd0c7c8e726f2ded8afc9a10deb7fcddce1529757be72896e
-      url: "https://pub.dev"
-    source: hosted
+      path: "../hismile_commons/packages/alice"
+      relative: true
+    source: path
     version: "1.0.0"
   alice_dio:
     dependency: "direct main"
     description:
-      name: alice_dio
-      sha256: "8ffae0dbf5a7b98e47597372dc5e7d8b9aa3de64576db4b7d2e108ff68cd0c83"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../hismile_commons/packages/alice_dio"
+      relative: true
+    source: path
     version: "1.0.7"
   analyzer:
     dependency: transitive

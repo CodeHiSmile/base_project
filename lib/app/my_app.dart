@@ -87,11 +87,27 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
                         return Positioned(
                           left: position.dx,
                           top: position.dy,
-                          child: FloatingActionButton(
-                            onPressed: () {
-                              _alice.showInspector();
+                          child: GestureDetector(
+                            onPanUpdate: (details) {
+                              setState(() {
+                                position = Offset(
+                                  (position.dx + details.delta.dx).clamp(
+                                    0,
+                                    data.size.width - 56,
+                                  ),
+                                  (position.dy + details.delta.dy).clamp(
+                                    0,
+                                    data.size.height - 56,
+                                  ),
+                                );
+                              });
                             },
-                            child: const Text('API'),
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                _alice.showInspector();
+                              },
+                              child: const Text('API'),
+                            ),
                           ),
                         );
                       },
