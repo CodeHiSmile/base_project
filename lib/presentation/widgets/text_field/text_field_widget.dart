@@ -2,6 +2,22 @@ import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared/shared.dart';
+import 'package:base_project/app/themes/app_colors.dart';
+
+class CustomTextFormField extends FormField<String> {
+  const CustomTextFormField({
+    super.key,
+    super.initialValue,
+    super.validator,
+    super.onSaved,
+    bool autoValidateMode = false,
+    required super.builder,
+  }) : super(
+         autovalidateMode: autoValidateMode
+             ? AutovalidateMode.always
+             : AutovalidateMode.disabled,
+       );
+}
 
 typedef FormFieldValidator<T> = String? Function(T? value);
 
@@ -23,7 +39,7 @@ class TextFieldWidget extends StatefulWidget {
     this.obscureText = false,
     this.minLines = 1,
     this.maxLines = 1,
-    this.height = 56,
+    this.height = 44,
     this.isRequired = false,
     this.enabled = true,
     this.clear = true,
@@ -33,9 +49,7 @@ class TextFieldWidget extends StatefulWidget {
     this.onChanged,
     this.onTap,
     this.scrollPadding,
-    this.contextMenuBuilder,
-    this.autovalidateMode = AutovalidateMode.onUserInteraction,
-    this.onFieldSubmitted,
+    this.onSubmitted,
     this.prefix,
     this.suffix,
     this.maxLength,
@@ -44,10 +58,12 @@ class TextFieldWidget extends StatefulWidget {
     this.textCapitalization = TextCapitalization.none,
     this.borderRadius,
     this.border,
+    this.backgroundColor,
     this.contentPadding,
     this.isTextArea = false,
     this.onFocusChange,
     this.maxSizeSuffix,
+    this.enableCounterText = false,
   });
 
   /// text form field are
@@ -77,9 +93,7 @@ class TextFieldWidget extends StatefulWidget {
     this.onChanged,
     this.onTap,
     this.scrollPadding,
-    this.contextMenuBuilder,
-    this.autovalidateMode,
-    this.onFieldSubmitted,
+    this.onSubmitted,
     this.prefix,
     this.suffix,
     this.maxLength,
@@ -88,10 +102,12 @@ class TextFieldWidget extends StatefulWidget {
     this.textCapitalization = TextCapitalization.none,
     this.borderRadius,
     this.border,
+    this.backgroundColor,
     this.contentPadding,
     this.isTextArea = true,
     this.onFocusChange,
     this.maxSizeSuffix,
+    this.enableCounterText = false,
   });
 
   /// if controller is null, a private widget controller will be used instead
@@ -115,9 +131,7 @@ class TextFieldWidget extends StatefulWidget {
   /// keyboard input type
   final TextInputType keyboardType;
 
-  final AutovalidateMode? autovalidateMode;
-
-  final ValueChanged<String?>? onFieldSubmitted;
+  final ValueChanged<String?>? onSubmitted;
 
   final int? maxLength;
 
@@ -128,6 +142,10 @@ class TextFieldWidget extends StatefulWidget {
   final BorderRadiusGeometry? borderRadius;
 
   final BoxBorder? border;
+
+  /// Nền khi ô đang `enabled`; `null` → `AppColors.neutral50` như cũ. Ô `enabled: false` vẫn dùng
+  /// `backgroundDisable`.
+  final Color? backgroundColor;
 
   /// auto focus
   final bool autofocus;
@@ -146,6 +164,9 @@ class TextFieldWidget extends StatefulWidget {
 
   /// obscureText
   final bool obscureText;
+
+  /// counter text
+  final bool enableCounterText;
 
   /// Text min line
   final int? minLines;
@@ -189,9 +210,6 @@ class TextFieldWidget extends StatefulWidget {
   /// On tap text field
   final VoidCallback? onTap;
 
-  /// EditableTextContextMenuBuilder
-  final EditableTextContextMenuBuilder? contextMenuBuilder;
-
   final bool isTextArea;
 
   final ValueChanged<bool>? onFocusChange;
@@ -211,7 +229,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   bool _hasFocus = false;
 
   TextStyle _textFieldStyle() {
-    return context.textStyles.body1Regular.copyWith(
+    return context.textStyles.body2Regular.copyWith(
       color: widget.enabled
           ? context.colors.backgroundBlack
           : context.colors.secondary,
@@ -219,8 +237,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   }
 
   TextStyle _errorTextStyle() {
-    return context.textStyles.body3Regular.copyWith(
-      color: context.colors.primary,
+    return context.textStyles.caption1Medium.copyWith(
+      color: context.colors.error,
     );
   }
 
@@ -230,12 +248,12 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
     required bool hasError,
   }) {
     return enabled
-        ? hasError
-              ? context.colors.primary
-              : hasFocus
-              ? context.colors.borderFocus
-              : context.colors.borderDefault
-        : context.colors.borderDefault;
+        ? _hasError
+              ? context.colors.errorBorder
+              : _hasFocus
+              ? AppColors.primary
+              : AppColors.neutral100
+        : context.colors.backgroundDisable;
   }
 
   void _listener() {
@@ -267,62 +285,85 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (_labelWidget() != null) ...[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: _labelWidget()!,
+          ),
+        ],
         Stack(
           children: [
-            Container(
-              height: widget.height,
-              alignment: widget.alignment,
-              padding: EdgeInsets.only(
-                left: widget.prefix != null ? 16 : 8,
-                right: widget.suffix != null ? 16 : 8,
-              ),
-              decoration: BoxDecoration(
-                color: _backgroundColor(
-                  enabled: widget.enabled,
-                  hasError: _hasError,
-                ),
-                borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
-                border:
-                    widget.border ??
-                    Border.all(
-                      color: _borderColor(
-                        enabled: widget.enabled,
-                        hasFocus: _hasFocus,
-                        hasError: _hasError,
-                      ),
-                    ),
-              ),
-              child: Row(
-                children: [
-                  if (widget.prefix != null) ...[
-                    SizedBox(height: 24, width: 24, child: widget.prefix!),
-                  ],
-                  Expanded(
-                    child: widget.onTap != null
-                        ? IgnorePointer(child: _textFormField())
-                        : _textFormField(),
+            CustomTextFormField(
+              validator: (value) {
+                setState(() {
+                  final errorString = widget.validator?.call(_controller.text);
+                  _errorString = errorString;
+                  if ((errorString ?? '').isNotEmpty) {
+                    _hasError = true;
+                  } else {
+                    _hasError = false;
+                  }
+                });
+                return _errorString;
+              },
+              builder: (context) {
+                return Container(
+                  height: widget.height,
+                  alignment: widget.alignment,
+                  padding: EdgeInsets.only(
+                    left: widget.prefix != null ? 16 : 0,
+                    right: widget.suffix != null ? 16 : 0,
                   ),
-                  if (_hasFocus &&
-                      widget.clear &&
-                      _hasText &&
-                      !widget.readOnly &&
-                      widget.enabled) ...[
-                    _buildClearTextButton(),
-                  ],
-                  if (widget.suffix != null) ...[
-                    (widget.maxSizeSuffix ?? false)
-                        ? widget.suffix!
-                        : SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: widget.suffix!,
+                  decoration: BoxDecoration(
+                    color: _backgroundColor(
+                      enabled: widget.enabled,
+                      hasError: _hasError,
+                    ),
+                    borderRadius:
+                        widget.borderRadius ?? BorderRadius.circular(16),
+                    border:
+                        widget.border ??
+                        Border.all(
+                          color: _borderColor(
+                            enabled: widget.enabled,
+                            hasFocus: _hasFocus,
+                            hasError: _hasError,
                           ),
-                  ],
-                ],
-              ),
+                        ),
+                  ),
+                  child: Row(
+                    children: [
+                      if (widget.prefix != null) ...[
+                        SizedBox(height: 20, width: 20, child: widget.prefix!),
+                      ],
+                      Expanded(
+                        child: widget.onTap != null
+                            ? IgnorePointer(child: _textFormField())
+                            : _textFormField(),
+                      ),
+                      if (_hasFocus &&
+                          widget.clear &&
+                          _hasText &&
+                          !widget.readOnly &&
+                          widget.enabled) ...[
+                        _buildClearTextButton(),
+                      ],
+                      if (widget.suffix != null) ...[
+                        (widget.maxSizeSuffix ?? false)
+                            ? widget.suffix!
+                            : SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: widget.suffix!,
+                              ),
+                      ],
+                    ],
+                  ),
+                );
+              },
             ),
             if (widget.onTap != null) ...[
-              Positioned(
+              Positioned.fill(
                 child: InkWell(
                   onTap: widget.onTap,
                   child: const SizedBox(
@@ -336,7 +377,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         ),
         if (_hasError) ...[
           Padding(
-            padding: const EdgeInsets.only(left: 16, top: 4),
+            padding: const EdgeInsets.only(left: 0, top: 4),
             child: Text(_errorString ?? '', style: _errorTextStyle()),
           ),
         ],
@@ -346,7 +387,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
 
   Widget _buildClearTextButton() {
     return Padding(
-      padding: EdgeInsets.only(right: widget.suffix == null ? 0 : 8),
+      padding: EdgeInsets.only(right: 8),
       child: InkWell(
         onTap: () {
           _controller.clear();
@@ -355,7 +396,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           });
           widget.onClear?.call();
         },
-        child: BaseAssets.icons.iconCloseCircle.svg(height: 24, width: 24),
+        child: BaseAssets.icons.iconCloseCircle.svg(),
       ),
     );
   }
@@ -372,7 +413,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           });
           widget.onFocusChange?.call(focus);
         },
-        child: TextFormField(
+        child: TextField(
           onChanged: (value) {
             widget.onChanged?.call(value);
           },
@@ -387,46 +428,41 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           keyboardType: widget.keyboardType,
           textInputAction: widget.textInputAction,
           inputFormatters: widget.inputFormatters ?? [SpaceInputFormatter()],
-          autovalidateMode: widget.autovalidateMode,
           textCapitalization: widget.textCapitalization,
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
           minLines: widget.minLines,
-          contextMenuBuilder: widget.contextMenuBuilder,
-          onFieldSubmitted: widget.onFieldSubmitted,
+          onSubmitted: widget.onSubmitted,
           scrollPadding:
               widget.scrollPadding ?? const EdgeInsets.only(bottom: 116),
-          validator: (value) {
-            final errorString = widget.validator?.call(_controller.text);
-            _errorString = errorString;
-            if ((errorString ?? '').isNotEmpty) {
-              _hasError = true;
-            } else {
-              _hasError = false;
-            }
-
-            return _hasError ? '' : null;
-          },
           decoration: InputDecoration(
+            isDense: true,
             contentPadding:
                 widget.contentPadding ??
-                const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            label: _label(),
-            labelStyle: widget.labelTextStyle,
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
             hintText: widget.hintText,
             hintStyle:
                 widget.hintTextStyle ??
-                context.textStyles.body1Regular.copyWith(
-                  color: context.colors.textBody,
+                context.textStyles.body2Regular.copyWith(
+                  color: AppColors.neutral500,
                 ),
             counterText: "",
+            counter: widget.enableCounterText
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      "${_controller.text.length}/${widget.maxLength}",
+                      style: context.textStyles.caption1Regular.copyWith(
+                        color: AppColors.neutral500,
+                      ),
+                    ),
+                  )
+                : null,
             border: InputBorder.none,
             errorBorder: InputBorder.none,
-            errorStyle: const TextStyle(height: 0),
             focusedErrorBorder: InputBorder.none,
             disabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
-            floatingLabelBehavior: FloatingLabelBehavior.auto,
           ),
         ),
       ),
@@ -434,14 +470,13 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   }
 
   Color _backgroundColor({required bool enabled, required bool hasError}) {
-    return enabled
-        ? hasError
-              ? context.colors.backgroundWhite
-              : context.colors.backgroundWhite
-        : context.colors.backgroundDisable;
+    if (!enabled) {
+      return context.colors.backgroundDisable;
+    }
+    return widget.backgroundColor ?? AppColors.neutral50;
   }
 
-  Widget? _label() {
+  Widget? _labelWidget() {
     if (!widget.isTextArea) {
       if (widget.labelText == null) {
         return null;
@@ -460,10 +495,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               hasText: _controller.text.isNotEmpty,
               required: widget.isRequired,
             ),
-            if (_controller.text.isNotEmpty) ...[
-              const SizedBox(width: 12),
-              widget.labelSuffix!,
-            ],
+            const SizedBox(width: 12),
+            widget.labelSuffix!,
           ],
         );
       }
@@ -477,18 +510,17 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         required: widget.isRequired,
       );
     } else {
-      if (_hasText) {
+      if (widget.labelText != null) {
         return _Label(
-          labelText: widget.hintText ?? '',
+          labelText: widget.labelText!,
           enabled: widget.enabled,
           hasFocus: _hasFocus,
           hasError: _hasError,
           hasText: _controller.text.isNotEmpty,
           required: widget.isRequired,
         );
-      } else {
-        return null;
       }
+      return null;
     }
   }
 }
@@ -514,40 +546,28 @@ class _Label extends StatelessWidget {
 
   TextStyle _labelTextStyle(
     BuildContext context, {
-    required bool hasText,
-    required bool hasFocus,
     required bool hasError,
     required bool enabled,
   }) {
-    return hasFocus
-        ? context.textStyles.caption1Regular.copyWith(
-            color: !hasError ? context.colors.textBody : context.colors.primary,
-          )
-        : hasText
-        ? context.textStyles.caption1Regular.copyWith(
-            color: enabled
-                ? !hasError
-                      ? context.colors.textBody
-                      : context.colors.primary
-                : context.colors.textBody,
-          )
-        : context.textStyles.body1Regular.copyWith(
-            color: context.colors.textBody,
-          );
+    return context.textStyles.body2Regular.copyWith(
+      color: enabled
+          ? hasError
+                ? AppColors.neutral500
+                : AppColors.neutral500
+          : context.colors.textBody,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final labelTextStyle = _labelTextStyle(
       context,
-      hasText: hasText,
-      hasFocus: hasFocus,
       hasError: hasError,
       enabled: enabled,
     );
 
     final requiredTextStyle = labelTextStyle.copyWith(
-      color: context.colors.primary,
+      color: context.colors.error,
     );
 
     return RichText(
@@ -556,12 +576,7 @@ class _Label extends StatelessWidget {
       text: TextSpan(
         style: labelTextStyle,
         children: <TextSpan>[
-          TextSpan(
-            text: labelText,
-            style: context.textStyles.body1Regular.copyWith(
-              color: context.colors.textSubtitle,
-            ),
-          ),
+          TextSpan(text: labelText),
           if (required) ...[TextSpan(text: ' *', style: requiredTextStyle)],
         ],
       ),

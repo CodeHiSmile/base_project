@@ -4,6 +4,8 @@ import 'package:alice/alice.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:base_project/app/my_app.dart';
 import 'package:base_project/config/app_config.dart';
+import 'package:base_project/app/themes/app_colors.dart';
+import 'package:base_project/presentation/widgets/button/primary_button.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide RouterConfig;
 import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:marionette_flutter/marionette_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:router/router.dart';
 import 'package:shared/shared.dart';
@@ -23,14 +26,33 @@ void mainApp(EnvironmentConfig config) {
 }
 
 Future<void> _runMyApp() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // Marionette (debug only): cho agent/MCP đọc widget tree, tap theo key và đọc log của app.
+  // Phải là binding đầu tiên và duy nhất; release dùng binding Flutter thường.
+  if (kDebugMode) {
+    MarionetteBinding.ensureInitialized(
+      MarionetteConfiguration(
+        isInteractiveWidget: (type) => type == PrimaryButton,
+        shouldStopTraversal: (type) => type == PrimaryButton,
+        extractText: (element) {
+          final widget = element.widget;
+          if (widget is PrimaryButton) {
+            return widget.text;
+          }
+          return null;
+        },
+      ),
+    );
+  } else {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
 
-  if (GetIt.instance.get<EnvironmentConfig>().getEnvironment() != Environment.production) {
+  if (GetIt.instance.get<EnvironmentConfig>().getEnvironment() !=
+      Environment.production) {
     GetIt.instance.get<EnvironmentConfig>().setAlice(
       Alice(configuration: AliceConfiguration(showNotification: false)),
     );
@@ -43,6 +65,7 @@ Future<void> _runMyApp() async {
   await RouterConfig.getInstance().init();
   await BaseUiConfig.getInstance().init();
   await AppConfig.getInstance().init();
+  ShowLoadingUtils.instance.setValueColor(AppColors.primary);
   await Future.delayed(Duration(milliseconds: 200));
 
   runApp(const MyApp());

@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppState {
 
- LanguageCode get languageCode; bool get isDarkTheme; bool get debugOverlayButton; int get mainPageIndex;
+ LanguageCode get languageCode; bool get isDarkTheme; bool get debugOverlayButton; int get mainPageIndex;/// Đang có dialog lỗi toàn cục (hết phiên, timeout) — lỗi kế tiếp không mở thêm dialog.
+ bool get showErrorDialog;
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,16 @@ $AppStateCopyWith<AppState> get copyWith => _$AppStateCopyWithImpl<AppState>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.mainPageIndex, mainPageIndex) || other.mainPageIndex == mainPageIndex));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.mainPageIndex, mainPageIndex) || other.mainPageIndex == mainPageIndex)&&(identical(other.showErrorDialog, showErrorDialog) || other.showErrorDialog == showErrorDialog));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,languageCode,isDarkTheme,debugOverlayButton,mainPageIndex);
+int get hashCode => Object.hash(runtimeType,languageCode,isDarkTheme,debugOverlayButton,mainPageIndex,showErrorDialog);
 
 @override
 String toString() {
-  return 'AppState(languageCode: $languageCode, isDarkTheme: $isDarkTheme, debugOverlayButton: $debugOverlayButton, mainPageIndex: $mainPageIndex)';
+  return 'AppState(languageCode: $languageCode, isDarkTheme: $isDarkTheme, debugOverlayButton: $debugOverlayButton, mainPageIndex: $mainPageIndex, showErrorDialog: $showErrorDialog)';
 }
 
 
@@ -45,7 +46,7 @@ abstract mixin class $AppStateCopyWith<$Res>  {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) _then) = _$AppStateCopyWithImpl;
 @useResult
 $Res call({
- LanguageCode languageCode, bool isDarkTheme, bool debugOverlayButton, int mainPageIndex
+ LanguageCode languageCode, bool isDarkTheme, bool debugOverlayButton, int mainPageIndex, bool showErrorDialog
 });
 
 
@@ -62,13 +63,14 @@ class _$AppStateCopyWithImpl<$Res>
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? languageCode = null,Object? isDarkTheme = null,Object? debugOverlayButton = null,Object? mainPageIndex = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? languageCode = null,Object? isDarkTheme = null,Object? debugOverlayButton = null,Object? mainPageIndex = null,Object? showErrorDialog = null,}) {
   return _then(_self.copyWith(
 languageCode: null == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
 as LanguageCode,isDarkTheme: null == isDarkTheme ? _self.isDarkTheme : isDarkTheme // ignore: cast_nullable_to_non_nullable
 as bool,debugOverlayButton: null == debugOverlayButton ? _self.debugOverlayButton : debugOverlayButton // ignore: cast_nullable_to_non_nullable
 as bool,mainPageIndex: null == mainPageIndex ? _self.mainPageIndex : mainPageIndex // ignore: cast_nullable_to_non_nullable
-as int,
+as int,showErrorDialog: null == showErrorDialog ? _self.showErrorDialog : showErrorDialog // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -153,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex,  bool showErrorDialog)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppState() when $default != null:
-return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex);case _:
+return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex,_that.showErrorDialog);case _:
   return orElse();
 
 }
@@ -174,10 +176,10 @@ return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex,  bool showErrorDialog)  $default,) {final _that = this;
 switch (_that) {
 case _AppState():
-return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex);case _:
+return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex,_that.showErrorDialog);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +196,10 @@ return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( LanguageCode languageCode,  bool isDarkTheme,  bool debugOverlayButton,  int mainPageIndex,  bool showErrorDialog)?  $default,) {final _that = this;
 switch (_that) {
 case _AppState() when $default != null:
-return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex);case _:
+return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_that.mainPageIndex,_that.showErrorDialog);case _:
   return null;
 
 }
@@ -209,13 +211,15 @@ return $default(_that.languageCode,_that.isDarkTheme,_that.debugOverlayButton,_t
 
 
 class _AppState extends AppState {
-  const _AppState({this.languageCode = LanguageCode.vi, this.isDarkTheme = false, this.debugOverlayButton = false, this.mainPageIndex = 0}): super._();
+  const _AppState({this.languageCode = LanguageCode.vi, this.isDarkTheme = false, this.debugOverlayButton = false, this.mainPageIndex = 0, this.showErrorDialog = false}): super._();
   
 
 @override@JsonKey() final  LanguageCode languageCode;
 @override@JsonKey() final  bool isDarkTheme;
 @override@JsonKey() final  bool debugOverlayButton;
 @override@JsonKey() final  int mainPageIndex;
+/// Đang có dialog lỗi toàn cục (hết phiên, timeout) — lỗi kế tiếp không mở thêm dialog.
+@override@JsonKey() final  bool showErrorDialog;
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +231,16 @@ _$AppStateCopyWith<_AppState> get copyWith => __$AppStateCopyWithImpl<_AppState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.mainPageIndex, mainPageIndex) || other.mainPageIndex == mainPageIndex));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppState&&(identical(other.languageCode, languageCode) || other.languageCode == languageCode)&&(identical(other.isDarkTheme, isDarkTheme) || other.isDarkTheme == isDarkTheme)&&(identical(other.debugOverlayButton, debugOverlayButton) || other.debugOverlayButton == debugOverlayButton)&&(identical(other.mainPageIndex, mainPageIndex) || other.mainPageIndex == mainPageIndex)&&(identical(other.showErrorDialog, showErrorDialog) || other.showErrorDialog == showErrorDialog));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,languageCode,isDarkTheme,debugOverlayButton,mainPageIndex);
+int get hashCode => Object.hash(runtimeType,languageCode,isDarkTheme,debugOverlayButton,mainPageIndex,showErrorDialog);
 
 @override
 String toString() {
-  return 'AppState(languageCode: $languageCode, isDarkTheme: $isDarkTheme, debugOverlayButton: $debugOverlayButton, mainPageIndex: $mainPageIndex)';
+  return 'AppState(languageCode: $languageCode, isDarkTheme: $isDarkTheme, debugOverlayButton: $debugOverlayButton, mainPageIndex: $mainPageIndex, showErrorDialog: $showErrorDialog)';
 }
 
 
@@ -247,7 +251,7 @@ abstract mixin class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res>
   factory _$AppStateCopyWith(_AppState value, $Res Function(_AppState) _then) = __$AppStateCopyWithImpl;
 @override @useResult
 $Res call({
- LanguageCode languageCode, bool isDarkTheme, bool debugOverlayButton, int mainPageIndex
+ LanguageCode languageCode, bool isDarkTheme, bool debugOverlayButton, int mainPageIndex, bool showErrorDialog
 });
 
 
@@ -264,13 +268,14 @@ class __$AppStateCopyWithImpl<$Res>
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? isDarkTheme = null,Object? debugOverlayButton = null,Object? mainPageIndex = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? languageCode = null,Object? isDarkTheme = null,Object? debugOverlayButton = null,Object? mainPageIndex = null,Object? showErrorDialog = null,}) {
   return _then(_AppState(
 languageCode: null == languageCode ? _self.languageCode : languageCode // ignore: cast_nullable_to_non_nullable
 as LanguageCode,isDarkTheme: null == isDarkTheme ? _self.isDarkTheme : isDarkTheme // ignore: cast_nullable_to_non_nullable
 as bool,debugOverlayButton: null == debugOverlayButton ? _self.debugOverlayButton : debugOverlayButton // ignore: cast_nullable_to_non_nullable
 as bool,mainPageIndex: null == mainPageIndex ? _self.mainPageIndex : mainPageIndex // ignore: cast_nullable_to_non_nullable
-as int,
+as int,showErrorDialog: null == showErrorDialog ? _self.showErrorDialog : showErrorDialog // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

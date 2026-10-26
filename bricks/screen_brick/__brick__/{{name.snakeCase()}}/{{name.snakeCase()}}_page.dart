@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:base_project/presentation/widgets/core/layout_page.dart';
 import './bloc/bloc.dart';
 
 class {{name.pascalCase()}}Arguments {
@@ -25,7 +26,7 @@ class _{{name.pascalCase()}}PageState extends BasePageState<{{name.pascalCase()}
 
   @override
   Widget buildPage(BuildContext context) {
-    return Scaffold(
+    return LayoutPage(
         body: SizedBox(),
         );
   }

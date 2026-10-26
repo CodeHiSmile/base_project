@@ -1,5 +1,6 @@
 import 'package:base_ui/base_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:base_project/app/themes/app_colors.dart';
 
 class TabBarWidget extends StatelessWidget {
   final TabController? tabController;
@@ -25,24 +26,25 @@ class TabBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      height: 52,
+      height: 44,
       child: TabBar(
         controller: tabController,
         indicatorSize: TabBarIndicatorSize.tab,
         tabs: buildTabItems(context),
         isScrollable: isScrollable ?? false,
         tabAlignment: tabAlignment,
-        labelStyle: context.textStyles.body2Medium,
+        labelStyle: context.textStyles.body2SemiBold,
         labelColor: context.colors.primary,
-        unselectedLabelStyle: context.textStyles.body2Medium,
-        unselectedLabelColor: context.colors.textSubtitle,
-        indicatorWeight: 6,
+        unselectedLabelStyle: context.textStyles.body2Regular,
+        unselectedLabelColor: AppColors.neutral500,
+        indicatorWeight: 2,
         indicatorColor: context.colors.primary,
         dividerHeight: 1,
-        dividerColor: context.colors.borderDivider,
+        dividerColor: AppColors.neutral100,
         indicator: UnderlineTabIndicator(
-          borderSide: BorderSide(width: 1, color: context.colors.primary),
+          borderSide: BorderSide(width: 2, color: context.colors.primary),
         ),
+        labelPadding: EdgeInsets.zero,
         onTap: (pageIndex) {
           onTap?.call(pageIndex);
         },
@@ -72,41 +74,44 @@ class TabBarWidget extends StatelessWidget {
     int? count,
   }) {
     return Tab(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(title),
-            if (count != null) ...[
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: activeIndex == index
-                      ? context.colors.primarySurface
-                      : context.colors.backgroundGray,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      count.toString(),
-                      overflow: TextOverflow.ellipsis,
-                      style: context.textStyles.caption1Regular.copyWith(
-                        color: activeIndex == index
-                            ? context.colors.primary
-                            : context.colors.textLabel,
-                      ),
-                    ),
-                  ],
-                ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: Center(child: Text(title, overflow: TextOverflow.ellipsis)),
+          ),
+          if (count != null) ...[
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: activeIndex == index
+                    ? context.colors.primarySurface
+                    : context.colors.backgroundGray,
+                borderRadius: BorderRadius.circular(8),
               ),
-            ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    count.toString(),
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textStyles.caption1Regular.copyWith(
+                      color: activeIndex == index
+                          ? context.colors.primary
+                          : context.colors.textLabel,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
-        ),
+          if (index < tabItems.length) ...[
+            VerticalDividerWidget(color: AppColors.neutral100, height: 16),
+          ],
+        ],
       ),
     );
   }

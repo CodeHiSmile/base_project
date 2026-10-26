@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:base_project/data/api/client/none_auth_app_server_api_client.dart';
 import 'package:base_project/data/api/service/refresh_token_api_service.dart';
+import 'package:base_project/data/api/session/session_expired_handler.dart';
 import 'package:data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -15,11 +16,13 @@ class RefreshTokenInterceptor extends BaseInterceptor {
     this.appPreferences,
     this.refreshTokenService,
     this._noneAuthAppServerApiClient,
+    this._sessionExpiredHandler,
   );
 
   final AppPreferences appPreferences;
   final RefreshTokenApiService refreshTokenService;
   final NoneAuthAppServerApiClient _noneAuthAppServerApiClient;
+  final SessionExpiredHandler _sessionExpiredHandler;
 
   var _isRefreshing = false;
   final _queue = Queue<Tuple2<RequestOptions, ErrorInterceptorHandler>>();
@@ -94,11 +97,20 @@ class RefreshTokenInterceptor extends BaseInterceptor {
   }
 
   void _onRefreshTokenError(Object? error) {
-    _queue.forEach((element) {
+    // reject: dừng chuỗi interceptor phía sau — request trong hàng đợi không được thử lại
+    // bằng token đã chết.
+    for (final element in _queue) {
       final options = element.item1;
       final handler = element.item2;
-      handler.next(DioException(requestOptions: options, error: error));
-    });
+      handler.reject(DioException(requestOptions: options, error: error));
+    }
+
+    // Chỉ hết phiên khi server từ chối refresh token; lỗi mạng lúc refresh thì giữ phiên.
+    // Interceptor không navigate/không mở dialog — UX hết phiên do tầng app quyết.
+    if (error is RemoteException &&
+        error.kind == RemoteExceptionKind.refreshTokenFailed) {
+      _sessionExpiredHandler.onSessionExpired();
+    }
   }
 
   Future<void> _requestWithNewToken({

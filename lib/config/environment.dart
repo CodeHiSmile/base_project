@@ -20,7 +20,8 @@ class EnvironmentBase extends EnvironmentConfig {
   final Environment environment;
 
   static EnvironmentBase dev = EnvironmentBase(
-    baseUrl: "",
+    // Đổi server dev không cần sửa code: --dart-define=API_BASE_URL=http://<host>:<port>
+    baseUrl: const String.fromEnvironment('API_BASE_URL'),
     clientId: '',
     hostWebView: "",
     environment: Environment.development,

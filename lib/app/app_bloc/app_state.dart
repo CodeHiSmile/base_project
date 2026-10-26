@@ -13,5 +13,8 @@ abstract class AppState extends BaseBlocState with _$AppState {
     @Default(false) bool isDarkTheme,
     @Default(false) bool debugOverlayButton,
     @Default(0) int mainPageIndex,
+
+    /// Đang có dialog lỗi toàn cục (hết phiên, timeout) — lỗi kế tiếp không mở thêm dialog.
+    @Default(false) bool showErrorDialog,
   }) = _AppState;
 }

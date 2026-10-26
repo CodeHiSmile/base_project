@@ -6,6 +6,7 @@ import 'package:base_project/presentation/features/main/main_page.dart';
 import 'package:base_project/presentation/features/product/product_detail/product_detail_page.dart';
 import 'package:base_project/presentation/features/product/product_list/product_list_page.dart';
 import 'package:base_project/presentation/features/splash/splash_page.dart';
+import 'package:base_project/presentation/widgets/pdf_viewer/pdf_viewer_page.dart';
 import 'package:router/router.dart';
 
 class AppRouter {
@@ -44,6 +45,12 @@ class AppRouter {
           return CreateOrderPage(
             arguments: state.extra as CreateOrderArguments?,
           );
+        },
+      ),
+      RouteEntry(
+        path: RouterPaths.pdfViewer,
+        builder: (context, state) {
+          return PdfViewerPage(arguments: state.extra as PdfViewerArguments?);
         },
       ),
     ];

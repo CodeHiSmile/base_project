@@ -28,6 +28,13 @@ class ChangeDebugSettingEvent extends AppEvent {
   const ChangeDebugSettingEvent({this.debugNotify, this.debugButtonOverlay});
 }
 
+/// Bật/tắt cờ "đang hiện dialog lỗi toàn cục" — chặn mở chồng dialog hết phiên / timeout.
+class ChangeShowErrorDialogEvent extends AppEvent {
+  final bool showErrorDialog;
+
+  const ChangeShowErrorDialogEvent(this.showErrorDialog);
+}
+
 class ChangeMainPageIndexEvent extends AppEvent {
   final int pageIndex;
 

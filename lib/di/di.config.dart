@@ -10,6 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:base_project/app/app_bloc/app_bloc.dart' as _i528;
+import 'package:base_project/app/session/app_session_expired_handler.dart'
+    as _i421;
 import 'package:base_project/data/api/client/auth_app_server_api_client.dart'
     as _i1051;
 import 'package:base_project/data/api/client/none_auth_app_server_api_client.dart'
@@ -23,6 +25,8 @@ import 'package:base_project/data/api/interceptors/refresh_token_interceptor.dar
 import 'package:base_project/data/api/service/app_api_service.dart' as _i877;
 import 'package:base_project/data/api/service/refresh_token_api_service.dart'
     as _i510;
+import 'package:base_project/data/api/session/session_expired_handler.dart'
+    as _i660;
 import 'package:base_project/data/mapper/auth/api_token_data_mapper.dart'
     as _i419;
 import 'package:base_project/data/repository_impls/user_repository_impl.dart'
@@ -83,6 +87,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i437.AccessTokenInterceptor>(),
       ),
     );
+    gh.lazySingleton<_i660.SessionExpiredHandler>(
+      () => _i421.AppSessionExpiredHandler(gh<_i494.DeleteTokenUseCase>()),
+    );
     gh.lazySingleton<_i218.NoneAuthAppServerApiClient>(
       () => _i218.NoneAuthAppServerApiClient(gh<_i437.HeaderInterceptor>()),
     );
@@ -100,6 +107,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i437.AppPreferences>(),
         gh<_i510.RefreshTokenApiService>(),
         gh<_i218.NoneAuthAppServerApiClient>(),
+        gh<_i660.SessionExpiredHandler>(),
       ),
     );
     gh.lazySingleton<_i1051.AuthAppServerApiClient>(

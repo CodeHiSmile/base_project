@@ -51,20 +51,29 @@ class AppBarCustomState extends State<AppBarCustom> {
       backgroundColor: widget.backgroundColor ?? context.colors.primary,
       automaticallyImplyLeading: false,
       leading: widget.isShowNavigation
-          ? InkWellWidget(
-              borderRadius: BorderRadius.circular(40),
-              onTap: () {
-                if (widget.backFunction != null) {
-                  widget.backFunction!.call();
-                } else {
-                  Navigator.of(context).pop();
-                }
+          ? Semantics(
+              identifier: 'app-bar-back',
+              label: 'Quay lại',
+              button: true,
+              excludeSemantics: true,
+              child: InkWellWidget(
+                key: const ValueKey('app-bar-back'),
+                borderRadius: BorderRadius.circular(40),
+                onTap: () {
+                  if (widget.backFunction != null) {
+                    widget.backFunction!.call();
+                  } else {
+                    Navigator.of(context).pop();
+                  }
 
-                ShowLoadingUtils.instance.turnOff();
-              },
-              child: Padding(
-                padding: EdgeInsets.all(widget.padding ?? 16),
-                child: widget.leadingWidget ?? BaseAssets.icons.iconBack.svg(),
+                  ShowLoadingUtils.instance.turnOff();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(widget.padding ?? 16),
+                  child:
+                      widget.leadingWidget ??
+                      BaseAssets.icons.iconBack.svg(height: 24, width: 24),
+                ),
               ),
             )
           : null,

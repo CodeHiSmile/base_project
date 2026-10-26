@@ -36,6 +36,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.2.2
+  # Widget core dùng trực tiếp (cùng ràng buộc với base_ui): AppSnackBar, AvatarWidget, AppImagePreview
+  another_flushbar: ^1.12.32
+  cached_network_image: ^3.4.1
+  # Trình xem PDF (PdfViewerPage)
+  flutter_pdfview: ^1.4.4
+  # Dogfood/kiểm thử tương tác qua MCP: chỉ khởi tạo ở debug (lib/main/main.dart)
+  marionette_flutter: ^0.6.0
   #  go_router: ^17.0.0
   json_annotation: ^4.9.0
   flutter_gen_runner: ^5.12.0
@@ -63,19 +70,19 @@ dependencies:
 
   #Internal
   shared:
-    path: ../hismile_commons/packages/shared
+    path: ../commons/packages/shared
   domain:
-    path: ../hismile_commons/packages/domain
+    path: ../commons/packages/domain
   data:
-    path: ../hismile_commons/packages/data
+    path: ../commons/packages/data
   base_ui:
-    path: ../hismile_commons/packages/base_ui
+    path: ../commons/packages/base_ui
   router:
-    path: ../hismile_commons/packages/router
+    path: ../commons/packages/router
   alice:
-    path: ../hismile_commons/packages/alice
+    path: ../commons/packages/alice
   alice_dio:
-    path: ../hismile_commons/packages/alice_dio
+    path: ../commons/packages/alice_dio
 
 dev_dependencies:
   flutter_test:

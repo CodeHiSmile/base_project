@@ -2,6 +2,7 @@ import 'package:base_project/app/app_bloc/app_state.dart';
 import 'package:base_project/di/di.dart';
 import 'package:base_project/generated/l10n.dart';
 import 'package:base_project/navigation/routers/app_router.dart';
+import 'package:base_project/app/themes/app_colors.dart';
 import 'package:base_ui/base_ui.dart';
 import 'package:domain/domain.dart';
 
@@ -120,7 +121,7 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
           themeMode: state.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
           theme: lightTheme.copyWith(
             extensions: [
-              AppColorScheme.core().copyWith(primary: Colors.green),
+              AppColorScheme.core().copyWith(primary: AppColors.primary),
               AppTextStyles.core(),
             ],
             appBarTheme: AppBarTheme(

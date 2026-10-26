@@ -13,4 +13,6 @@ abstract class RouterPaths {
   static const String productDetail = '/productDetail';
 
   static const String createOrder = '/createOrder';
+
+  static const String pdfViewer = '/pdfViewer';
 }

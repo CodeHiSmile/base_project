@@ -20,6 +20,7 @@ class AppBloc extends BaseBloc<AppEvent, AppState> {
       ) {
     on<AppInitiated>(_onAppInitiated, transformer: log());
     on<ChangeMainPageIndexEvent>(_onChangeMainPageIndex, transformer: log());
+    on<ChangeShowErrorDialogEvent>(_onChangeShowErrorDialog);
   }
 
   final GetInitialAppDataUseCase _getInitialAppDataUseCase;
@@ -44,6 +45,13 @@ class AppBloc extends BaseBloc<AppEvent, AppState> {
     AppThemeSetting.currentAppTheme = isDarkTheme
         ? AppThemeType.dark
         : AppThemeType.light;
+  }
+
+  void _onChangeShowErrorDialog(
+    ChangeShowErrorDialogEvent event,
+    Emitter<AppState> emit,
+  ) {
+    emit(state.copyWith(showErrorDialog: event.showErrorDialog));
   }
 
   void _onChangeMainPageIndex(
