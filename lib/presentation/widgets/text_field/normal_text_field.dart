@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -168,7 +169,7 @@ class NormalTextField extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(12),
-                        child: BaseAssets.icons.iconCloseCircle.svg(),
+                        child: MyAssets.icons.iconCloseCircle.svg(),
                       ),
                     ),
                     suffix ?? const SizedBox(),

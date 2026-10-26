@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 
@@ -72,7 +73,7 @@ class AppBarCustomState extends State<AppBarCustom> {
                   padding: EdgeInsets.all(widget.padding ?? 16),
                   child:
                       widget.leadingWidget ??
-                      BaseAssets.icons.iconBack.svg(height: 24, width: 24),
+                      MyAssets.icons.iconBack.svg(height: 24, width: 24),
                 ),
               ),
             )

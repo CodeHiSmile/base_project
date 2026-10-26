@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared/shared.dart';
@@ -396,7 +397,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           });
           widget.onClear?.call();
         },
-        child: BaseAssets.icons.iconCloseCircle.svg(),
+        child: MyAssets.icons.iconCloseCircle.svg(),
       ),
     );
   }

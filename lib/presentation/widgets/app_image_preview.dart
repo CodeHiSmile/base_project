@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:base_project/app/themes/app_colors.dart';
 import 'package:base_project/presentation/widgets/app_image_preview_page.dart';
@@ -178,10 +179,17 @@ class AppPreviewImage extends StatelessWidget {
     return SizedBox(
       width: size?.width,
       height: size?.height,
-      child: const ColoredBox(
+      child: ColoredBox(
         color: AppColors.neutral100,
         child: Center(
-          child: Icon(BaseIconsLinear.gallery, color: AppColors.neutral400),
+          child: MyAssets.icons.iconGalleryLinear.svg(
+            width: 24,
+            height: 24,
+            colorFilter: const ColorFilter.mode(
+              AppColors.neutral400,
+              BlendMode.srcIn,
+            ),
+          ),
         ),
       ),
     );

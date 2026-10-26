@@ -27,7 +27,7 @@
 - Data access qua repository interface; endpoint chỉ khai trong `AppApiService`.
 - Tầng data không mở dialog/không navigate: hết phiên đi qua `SessionExpiredHandler` (`lib/data/api/session/`)
   do `lib/app/session/AppSessionExpiredHandler` implement.
-- Màu qua `AppColors` (`lib/app/themes/`) hoặc `context.colors`; icon từ `base_ui`; snackbar qua `AppSnackBar`.
+- Màu qua `AppColors` (`lib/app/themes/`) hoặc `context.colors`; icon trong `assets/icons/` gọi qua `MyAssets.icons` (không dùng icon trực tiếp từ `base_ui`); snackbar qua `AppSnackBar`.
 - Chuỗi hiển thị qua localization; accessibility hỗ trợ VoiceOver/TalkBack (Semantics cho control custom).
 - Trong các file UI (`lib/presentation/**` và `test/presentation/**`), dùng `.toList()` và không truyền `growable: false`.
 - Page không quá 400 dòng dùng helper method; page trên 400 dòng phải tách widget con vào thư mục `widgets/` của màn.

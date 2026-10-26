@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:base_project/app/themes/app_colors.dart';
@@ -55,10 +56,13 @@ class AvatarWidget extends StatelessWidget {
     return Container(
       color: AppColors.neutral100,
       alignment: Alignment.bottomCenter,
-      child: Icon(
-        BaseIconsBold.user,
-        size: size * 0.8,
-        color: AppColors.neutral400,
+      child: MyAssets.icons.iconUserBold.svg(
+        width: size * 0.8,
+        height: size * 0.8,
+        colorFilter: const ColorFilter.mode(
+          AppColors.neutral400,
+          BlendMode.srcIn,
+        ),
       ),
       // Icon(Icons.person, size: size * 0.8, color: AppColors.neutral400),
     );

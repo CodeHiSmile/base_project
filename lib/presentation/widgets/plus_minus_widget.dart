@@ -1,4 +1,5 @@
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:base_project/app/themes/app_colors.dart';
@@ -80,7 +81,10 @@ class _PlusMinusWidgetState extends State<PlusMinusWidget> {
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 6),
-                child: Icon(BaseIconsLinear.minus, size: widget.iconSize),
+                child: MyAssets.icons.iconMinusLinear.svg(
+                  width: widget.iconSize,
+                  height: widget.iconSize,
+                ),
               ),
             ),
           if (_value > 0)
@@ -113,7 +117,10 @@ class _PlusMinusWidgetState extends State<PlusMinusWidget> {
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 6),
-              child: Icon(BaseIconsLinear.add, size: widget.iconSize),
+              child: MyAssets.icons.iconAddLinear.svg(
+                width: widget.iconSize,
+                height: widget.iconSize,
+              ),
             ),
           ),
         ],

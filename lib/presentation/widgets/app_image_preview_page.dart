@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:base_ui/base_ui.dart';
+import 'package:base_project/generated/assets.gen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
@@ -79,9 +80,13 @@ class _AppImagePreviewPageState extends State<AppImagePreviewPage> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(
-                    BaseIconsLinear.close_circle,
-                    color: context.colors.backgroundWhite,
+                  icon: MyAssets.icons.iconCloseCircleLinear.svg(
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                      context.colors.backgroundWhite,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const Spacer(),

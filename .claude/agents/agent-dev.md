@@ -27,7 +27,7 @@ Không sửa `commons/packages/**` từ repo này nếu task không yêu cầu r
 - Widget không chứa business rule, không gọi API/RepositoryImpl trực tiếp; BLoC không navigate.
 - Endpoint mới chỉ khai trong `lib/data/api/service/app_api_service.dart`.
 - Màn mới tạo bằng mason brick (`bricks/shell_scripts/`), route qua `RouterPaths`.
-- Màu từ `AppColors`/`context.colors`, icon từ `base_ui`, snackbar qua `AppSnackBar`.
+- Màu từ `AppColors`/`context.colors`, icon từ `assets/icons/` qua `MyAssets.icons` (thiếu thì copy SVG từ `base_ui` rồi gen — `UI-COMPONENT-CONVENTIONS.md`), snackbar qua `AppSnackBar`.
 - Mỗi yêu cầu nghiệp vụ có test hành vi tương ứng (`VERIFICATION.md`).
 
 ## Exit

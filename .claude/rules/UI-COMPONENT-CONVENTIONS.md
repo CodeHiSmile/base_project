@@ -22,11 +22,22 @@ paths:
 
 ## Icon và asset
 
-- Icon giao diện thông thường phải lấy từ `BaseIconsLinear` hoặc `BaseIconsBold` trong package
-  `base_ui`, chọn đúng style của thiết kế.
-- Không thêm hoặc import file SVG riêng nếu `base_ui` đã có glyph tương ứng.
-- Với SVG/ảnh asset thực sự cần giữ nguyên, đặc biệt logo hoặc social provider, dùng generated asset
-  API `MyAssets.<path>.svg()`; không gọi trực tiếp `SvgPicture.asset('assets/...')`.
+- **Không dùng icon trực tiếp từ package `base_ui`** — cấm `BaseAssets.icons.*`, `BaseIconsLinear.*`,
+  `BaseIconsBold.*` trong code app. Mọi icon nằm trong `assets/icons/` của project và gọi qua generated
+  asset API `MyAssets.icons.<tên>.svg(...)` (`lib/generated/assets.gen.dart`).
+- Cần một icon:
+  1. Kiểm `assets/icons/` (hoặc accessor `MyAssets.icons.*`) xem project đã có chưa — có thì dùng luôn.
+  2. Chưa có → copy SVG từ `base_ui` vào `assets/icons/`:
+     - icon có sẵn ở `../commons/packages/base_ui/assets/icons/<tên>.svg` → giữ nguyên tên file;
+     - glyph của bộ `BaseIconsLinear`/`BaseIconsBold` → lấy `../commons/packages/base_ui/assets/svgs/<linear|bold>/<tên>.svg`,
+       đặt tên `icon_<tên>_<linear|bold>.svg` (ví dụ `icon_add_linear.svg` → `MyAssets.icons.iconAddLinear`).
+  3. Chạy `dart run build_runner build --delete-conflicting-outputs` để sinh lại `assets.gen.dart`.
+  4. Gọi `MyAssets.icons.<tên>.svg(width: …, height: …)`.
+- `base_ui` không có icon thiết kế cần → xuất SVG từ thiết kế, đặt vào `assets/icons/` theo cùng quy trình.
+- Đổi màu SVG bằng `colorFilter: ColorFilter.mode(<màu>, BlendMode.srcIn)`; không dùng tham số `color`
+  (deprecated).
+- Ảnh/logo/social provider cũng gọi qua `MyAssets.<path>`; không gọi trực tiếp
+  `SvgPicture.asset('assets/...')`.
 - Mọi logic `switch`/`if`/toán tử ba ngôi kiểm tra enum để trả về giá trị hiển thị như color, icon,
   text style, border, label hoặc asset phải đặt trong extension của enum đó. Widget chỉ gọi API của
   extension, không tự mapping enum sang giá trị hiển thị.

@@ -242,7 +242,7 @@ dart run build_runner build --delete-conflicting-outputs
 - Tái sử dụng component và extension từ `base_ui`.
 - Không tạo hệ design token song song nếu project hoặc `base_ui` đã có equivalent.
 - Chuỗi UI đi qua l10n (`lib/l10n/*.arb` → `S.of(context)`). Dự án fork quyết khác (ví dụ chỉ tiếng Việt) thì ghi rõ quyết định vào `CLAUDE.md` của dự án đó.
-- Asset dùng generated `MyAssets` khi có accessor tương ứng.
+- Asset và icon dùng generated `MyAssets` (`MyAssets.icons.<tên>.svg()`). Không dùng icon trực tiếp từ `base_ui`; thiếu icon thì copy SVG từ `base_ui` vào `assets/icons/` rồi chạy build_runner — quy trình ở `.claude/rules/UI-COMPONENT-CONVENTIONS.md` mục *Icon và asset*.
 - Font chính hiện tại là Gilroy; dùng typography token thay vì khai font trực tiếp trong từng widget.
 - Chỉ đặt `TextStyle.height` khi design/typography yêu cầu.
 - UI mới phải xem xét loading, empty, success, error, text scaling và semantics.
